@@ -5,9 +5,9 @@ extern crate glium;
 extern crate lazy_static;
 
 extern crate image;
+extern crate palette;
 
 mod camera;
-mod color;
 pub mod colors; // TODO
 mod console;
 mod data;

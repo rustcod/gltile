@@ -1,12 +1,18 @@
-use color;
-use rgb;
+use palette;
+
+fn str_to_rgba(color: &str) -> [f32; 3] {
+    let rgba = palette::named::from_str(color)
+        .expect(&format!("unknown color: {}", color))
+        .to_rgba();
+    palette::pixel::RgbPixel::from_rgba(rgba.0, rgba.1, rgba.2, 1.0)
+}
 
 lazy_static! {
-    pub static ref BLACK:  rgb::RGB = color::Color::new([  0,   0,   0]).to_srgb();
-    pub static ref BROWN:  rgb::RGB = color::Color::new([122,  82,  48]).to_srgb();
-    pub static ref BLUE:   rgb::RGB = color::Color::new([  0,   0, 255]).to_srgb();
-    pub static ref RED:    rgb::RGB = color::Color::new([255,   0,   0]).to_srgb();
-    pub static ref GREEN:  rgb::RGB = color::Color::new([  0, 255,   0]).to_srgb();
-    pub static ref YELLOW: rgb::RGB = color::Color::new([255, 255,   0]).to_srgb();
-    pub static ref WHITE:  rgb::RGB = color::Color::new([255, 255, 255]).to_srgb();
+    pub static ref BLACK:  [f32; 3] = str_to_rgba("black");
+    pub static ref BROWN:  [f32; 3] = str_to_rgba("saddlebrown");
+    pub static ref BLUE:   [f32; 3] = str_to_rgba("blue");
+    pub static ref RED:    [f32; 3] = str_to_rgba("red");
+    pub static ref GREEN:  [f32; 3] = str_to_rgba("green");
+    pub static ref YELLOW: [f32; 3] = str_to_rgba("yellow");
+    pub static ref WHITE:  [f32; 3] = str_to_rgba("white");
 }
