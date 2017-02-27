@@ -1,0 +1,11 @@
+[package]
+name = "gltile"
+version = "0.0.1"
+authors = ["Dave O <davidobrite@gmail.com>"]
+
+[dependencies]
+glium = "0.16.0"
+lazy_static = "0.2.2"
+image = "0.12.3"
+
+[dev-dependencies]
