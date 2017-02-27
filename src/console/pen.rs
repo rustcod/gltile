@@ -1,11 +1,11 @@
+use colors;
 use data;
-use rgb;
 
 #[derive(Clone, Copy, Debug, Default)]
 pub struct Pen {
     pub cursor_loc: data::WindowLoc,
-    pub fg: rgb::RGB,
-    pub bg: rgb::RGB,
+    pub fg: colors::Srgb,
+    pub bg: colors::Srgb,
 }
 
 impl Pen {

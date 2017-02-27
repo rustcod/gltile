@@ -14,7 +14,6 @@ mod data;
 mod dir;
 mod mvp;
 mod pixset;
-mod rgb;
 mod utils;
 mod vertex;
 

@@ -1,6 +1,6 @@
 use data;
 use pixset;
-use rgb;
+use colors;
 
 use super::{Pen, Tile, Tiles, WithParams};
 
@@ -29,12 +29,12 @@ impl Console {
         self
     }
 
-    pub fn set_fg(&mut self, color: rgb::RGB) -> &mut Self {
+    pub fn set_fg(&mut self, color: colors::Srgb) -> &mut Self {
         self.pen.fg = color;
         self
     }
 
-    pub fn set_bg(&mut self, color: rgb::RGB) -> &mut Self {
+    pub fn set_bg(&mut self, color: colors::Srgb) -> &mut Self {
         self.pen.bg = color;
         self
     }
@@ -73,7 +73,7 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_fg(&mut self, fg: rgb::RGB) -> WithParams {
+    pub fn with_fg(&mut self, fg: colors::Srgb) -> WithParams {
         let cursor_loc = self.pen.cursor_loc;
         let bg = self.pen.bg;
 
@@ -89,7 +89,7 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_bg(&mut self, bg: rgb::RGB) -> WithParams {
+    pub fn with_bg(&mut self, bg: colors::Srgb) -> WithParams {
         let cursor_loc = self.pen.cursor_loc;
         let fg = self.pen.fg;
 

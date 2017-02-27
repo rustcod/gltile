@@ -1,6 +1,6 @@
+use colors;
 use data;
 use pixset;
-use rgb;
 
 use super::Tile;
 
@@ -37,8 +37,8 @@ impl Tiles {
     pub fn set(&mut self,
                cursor_loc: data::WindowLoc,
                pix: pixset::Pix,
-               fg: rgb::RGB,
-               bg: rgb::RGB) {
+               fg: colors::Srgb,
+               bg: colors::Srgb) {
         // TODO asserts
         let idx = (self.size.width * cursor_loc.y + cursor_loc.x) as usize;
         self.tiles[idx].pix = pix;

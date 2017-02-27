@@ -1,6 +1,6 @@
+use colors;
 use data;
 use pixset;
-use rgb;
 
 use super::{Console, Pen};
 
@@ -17,13 +17,13 @@ impl<'a> WithParams<'a> {
     }
 
     #[allow(dead_code)]
-    pub fn with_fg(&mut self, fg: rgb::RGB) -> &mut Self {
+    pub fn with_fg(&mut self, fg: colors::Srgb) -> &mut Self {
         self.pen.fg = fg;
         self
     }
 
     #[allow(dead_code)]
-    pub fn with_bg(&mut self, bg: rgb::RGB) -> &mut Self {
+    pub fn with_bg(&mut self, bg: colors::Srgb) -> &mut Self {
         self.pen.bg = bg;
         self
     }

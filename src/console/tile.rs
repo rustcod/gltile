@@ -1,11 +1,10 @@
 use colors;
 use pixset;
-use rgb;
 
 #[derive(Clone, Copy, Debug, Default)]
 pub struct Tile {
-    pub fg: rgb::RGB,
-    pub bg: rgb::RGB,
+    pub fg: colors::Srgb,
+    pub bg: colors::Srgb,
     pub pix: pixset::Pix,
 }
 

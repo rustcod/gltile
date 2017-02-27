@@ -2,15 +2,14 @@ use colors;
 use console;
 use data;
 use pixset;
-use rgb;
 
 #[derive(Copy, Clone, Debug)]
 pub struct Vertex {
     pub position: [f32; 2],
     pub tileset_coords: [f32; 2],
     pub window_loc: [i32; 2],
-    pub foreground_color: rgb::RGB,
-    pub background_color: rgb::RGB,
+    pub foreground_color: colors::Srgb,
+    pub background_color: colors::Srgb,
 }
 
 implement_vertex!(Vertex,
