@@ -37,9 +37,6 @@ fn main() {
     let size = gltile::Size::new((screen_size.width as f32 / 16.0) as i32,
                                  (screen_size.height as f32 / 16.0) as i32);
 
-    let mat4_id = gltile::mat4_id();
-    let ortho_projection = gltile::ortho_projection(screen_size);
-
     let mut camera = {
         let halve_pixels = (display.get_window().unwrap().hidpi_factor() - 2.0).abs() < 0.1;
         gltile::Camera::new(screen_size, gltile::Loc { x: 0, y: 63 }, 16, halve_pixels)
@@ -52,9 +49,14 @@ fn main() {
         glium::IndexBuffer::new(&display, PrimitiveType::TrianglesList, &indices).unwrap()
     };
 
-    let cam_uniforms = uniform! {
-        mvp: gltile::model_view_projection(mat4_id, camera.as_mat(), ortho_projection),
-        tileset: tileset
+    let cam_uniforms = {
+        let mat4_id = gltile::mat4_id();
+        let ortho_projection = gltile::ortho_projection(screen_size);
+
+        uniform! {
+            mvp: gltile::model_view_projection(mat4_id, camera.as_mat(), ortho_projection),
+            tileset: tileset
+        }
     };
 
     let vb = {
