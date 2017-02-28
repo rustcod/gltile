@@ -7,23 +7,18 @@ extern crate lazy_static;
 extern crate image;
 extern crate palette;
 
-mod camera;
 pub mod colors; // TODO
 mod console;
 mod data;
-mod dir;
 mod mvp;
 mod pixset;
 mod utils;
 mod vertex;
 
-pub use camera::Camera;
 pub use console::Console;
 pub use console::Tile;
 pub use console::VertexBuffer;
-pub use data::Loc;
 pub use data::Size;
-pub use dir::Dir;
 pub use pixset::{Pix, Pixset};
 pub use data::WindowLoc;
 

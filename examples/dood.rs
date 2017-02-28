@@ -10,10 +10,7 @@ extern crate gltile;
 fn main() {
     use glium::{DisplayBuild, Surface};
 
-    let screen_size = gltile::Size {
-        width: 1536, // 96
-        height: 1024, // 64
-    };
+    let screen_size = gltile::Size::new(1536 /* 96 */, 1024 /* 64 */);
 
     let display = glium::glutin::WindowBuilder::new()
         .with_dimensions(screen_size.width as u32, screen_size.height as u32)
@@ -37,11 +34,6 @@ fn main() {
     let size = gltile::Size::new((screen_size.width as f32 / 16.0) as i32,
                                  (screen_size.height as f32 / 16.0) as i32);
 
-    let mut camera = {
-        let halve_pixels = (display.get_window().unwrap().hidpi_factor() - 2.0).abs() < 0.1;
-        gltile::Camera::new(screen_size, gltile::Loc { x: 0, y: 63 }, 16, halve_pixels)
-    };
-
     let indices = {
         use glium::index::PrimitiveType;
 
@@ -53,9 +45,14 @@ fn main() {
         let mat4_id = gltile::mat4_id();
         let ortho_projection = gltile::ortho_projection(screen_size);
 
+        let cam = [[1.0, 0.0, 0.0, 0.0],
+                   [0.0, 1.0, 0.0, 0.0],
+                   [0.0, 0.0, 1.0, 0.0],
+                   [-768.0, -512.0, 0.0, 1.0]];
+
         uniform! {
-            mvp: gltile::model_view_projection(mat4_id, camera.as_mat(), ortho_projection),
-            tileset: tileset
+            mvp: gltile::model_view_projection(mat4_id, cam, ortho_projection),
+            tileset: tileset,
         }
     };
 
