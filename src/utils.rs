@@ -1,9 +1,8 @@
-use std::io;
+use data;
 
 use glium;
-
-use data;
 use mvp;
+use std::io;
 
 pub fn mat4_id() -> mvp::Matrix4 {
     // TODO lazy_static!

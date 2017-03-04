@@ -1,8 +1,7 @@
+use super::{Console, Pen};
 use colors;
 use data;
 use pixset;
-
-use super::{Console, Pen};
 
 pub struct WithParams<'a> {
     pub console: &'a mut Console,

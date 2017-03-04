@@ -1,3 +1,4 @@
+use super::WindowLocOffset;
 /// tile based window location
 /// independent of game location
 ///
@@ -5,8 +6,6 @@
 /// regardless of what game location that happens to be
 
 use std;
-
-use super::WindowLocOffset;
 
 #[derive(Clone, Copy, Debug, Default)]
 pub struct WindowLoc {

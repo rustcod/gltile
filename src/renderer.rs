@@ -1,8 +1,8 @@
-use glium;
-
-use data;
 use Size;
 use console;
+
+use data;
+use glium;
 use mvp;
 use read_file;
 use utils;
@@ -94,9 +94,10 @@ fn program(display: &glium::backend::glutin_backend::GlutinFacade) -> glium::Pro
     glium::Program::from_source(display as &glium::backend::Facade, &vertex, &frag, None).unwrap()
 }
 
-fn indices(display: &glium::backend::glutin_backend::GlutinFacade,
-           size: Size)
-           -> glium::IndexBuffer<u16> {
+fn indices(
+    display: &glium::backend::glutin_backend::GlutinFacade,
+    size: Size
+) -> glium::IndexBuffer<u16> {
     use glium::index::PrimitiveType;
 
     let indices = utils::indices((size.width * size.height) as usize);
@@ -106,9 +107,10 @@ fn indices(display: &glium::backend::glutin_backend::GlutinFacade,
         .unwrap()
 }
 
-fn texture(display: &glium::backend::glutin_backend::GlutinFacade,
-           path: &str)
-           -> glium::texture::Texture2d {
+fn texture(
+    display: &glium::backend::glutin_backend::GlutinFacade,
+    path: &str
+) -> glium::texture::Texture2d {
     let png = utils::read_bytes(path).unwrap();
     let texture = utils::read_png_to_texture(&png[..]);
     glium::texture::Texture2d::new(display as &glium::backend::Facade, texture).unwrap()

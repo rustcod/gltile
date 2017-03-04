@@ -1,8 +1,7 @@
+use super::{Pen, Tile, Tiles, WithParams};
+use colors;
 use data;
 use pixset;
-use colors;
-
-use super::{Pen, Tile, Tiles, WithParams};
 
 pub struct Console {
     pub size: data::Size,

@@ -1,6 +1,5 @@
-use data;
-
 use super::{Console, Tile};
+use data;
 use vertex::{Vertex, VertexData};
 
 pub struct VertexBuffer {
