@@ -13,7 +13,7 @@ fn main() {
     let renderer = gltile::Renderer::new(1536 /* 96 */, 1024 /* 64 */, 16);
 
     let texture = {
-        let png = include_bytes!("../assets/tileset.png");
+        let png = gltile::read_bytes("assets/tileset.png").unwrap();
         let tileset_texture = gltile::read_png_to_texture(&png[..]);
         glium::texture::Texture2d::new(&renderer.display, tileset_texture).unwrap()
     };
