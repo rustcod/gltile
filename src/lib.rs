@@ -12,6 +12,7 @@ mod console;
 mod data;
 mod mvp;
 mod pixset;
+mod renderer;
 mod utils;
 mod vertex;
 
@@ -19,8 +20,9 @@ pub use console::Console;
 pub use console::Tile;
 pub use console::VertexBuffer;
 pub use data::Size;
-pub use pixset::{Pix, Pixset};
 pub use data::WindowLoc;
+pub use pixset::{Pix, Pixset};
+pub use renderer::Renderer;
 
 pub use mvp::model_view_projection;
 
