@@ -1,8 +1,6 @@
 use glium;
-use glium::uniforms::{Sampler, UniformsStorage, EmptyUniforms};
 
 use Size;
-use mvp;
 use read_file;
 use utils;
 
@@ -44,10 +42,8 @@ fn display(screen_size: Size) -> glium::backend::glutin_backend::GlutinFacade {
 
 fn program(display: &glium::backend::glutin_backend::GlutinFacade) -> glium::Program {
     let vertex = read_file("shaders/vertex.glsl").expect("could not find shaders/vertex.glsl");
-    let fragment = read_file("shaders/fragment.glsl")
-        .expect("could not find shaders/fragment.glsl");
-    glium::Program::from_source(display as &glium::backend::Facade, &vertex, &fragment, None)
-        .unwrap()
+    let frag = read_file("shaders/fragment.glsl").expect("could not find shaders/fragment.glsl");
+    glium::Program::from_source(display as &glium::backend::Facade, &vertex, &frag, None).unwrap()
 }
 
 fn indices(size: Size,

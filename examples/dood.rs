@@ -13,8 +13,9 @@ fn main() {
     let renderer = gltile::Renderer::new(1536 /* 96 */, 1024 /* 64 */, 16);
 
     let texture = {
-        let tileset = gltile::read_png_to_texture(&include_bytes!("../assets/tileset.png")[..]);
-        glium::texture::Texture2d::new(&renderer.display, tileset).unwrap()
+        let png = include_bytes!("../assets/tileset.png");
+        let tileset_texture = gltile::read_png_to_texture(&png[..]);
+        glium::texture::Texture2d::new(&renderer.display, tileset_texture).unwrap()
     };
 
     let tileset = texture.sampled().magnify_filter(glium::uniforms::MagnifySamplerFilter::Nearest);
@@ -49,8 +50,6 @@ fn main() {
         // TODO hide this as an implementation detail
         glium::VertexBuffer::new(&renderer.display, &vb.data()).unwrap()
     };
-
-    // let mut console = gltile::Console::new(size);
 
     loop {
         let mut target = renderer.display.draw();
