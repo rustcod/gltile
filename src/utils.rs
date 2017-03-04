@@ -1,15 +1,14 @@
-use data;
-
+use euclid;
 use glium;
 use mvp;
-use std::io;
+use std;
 
 pub fn mat4_id() -> mvp::Matrix4 {
     // TODO lazy_static!
     [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]]
 }
 
-pub fn ortho_projection(screen_size: data::Size) -> mvp::Matrix4 {
+pub fn ortho_projection(screen_size: euclid::Size2D<i32>) -> mvp::Matrix4 {
     let o_w = 2.0 / screen_size.width as f32;
     let o_h = 2.0 / screen_size.height as f32;
 
@@ -17,7 +16,7 @@ pub fn ortho_projection(screen_size: data::Size) -> mvp::Matrix4 {
     [[o_w, 0.0, 0.0, 0.0], [0.0, o_h, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]]
 }
 
-pub fn read_file(path: &str) -> io::Result<(String)> {
+pub fn read_file(path: &str) -> std::io::Result<(String)> {
     use std::io::Read;
     use std::fs::File;
 
@@ -27,7 +26,7 @@ pub fn read_file(path: &str) -> io::Result<(String)> {
     Ok(string)
 }
 
-pub fn read_bytes(path: &str) -> io::Result<Vec<u8>> {
+pub fn read_bytes(path: &str) -> std::io::Result<Vec<u8>> {
     use std::io::Read;
     use std::fs::File;
 
@@ -41,7 +40,7 @@ pub fn read_bytes(path: &str) -> io::Result<Vec<u8>> {
 pub fn read_png_to_texture(bytes: &[u8]) -> glium::texture::RawImage2d<u8> {
     use image;
 
-    let image = image::load(io::Cursor::new(bytes), image::PNG).unwrap().to_rgba();
+    let image = image::load(std::io::Cursor::new(bytes), image::PNG).unwrap().to_rgba();
     let image_dimensions = image.dimensions();
     glium::texture::RawImage2d::from_raw_rgba_reversed(image.into_raw(), image_dimensions)
 }

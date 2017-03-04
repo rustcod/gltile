@@ -1,34 +1,35 @@
 use console;
-use data;
+use euclid;
 use pixset;
+use units;
 use vertex;
 
 pub struct VertexData {
     data: Vec<vertex::Vertex>,
-    size: data::Size,
+    size: euclid::Size2D<i32>,
 }
 
 // TODO remove Size
 impl VertexData {
-    pub fn new(size: data::Size) -> Self {
+    pub fn new(size: euclid::Size2D<i32>) -> Self {
         let length = (size.width * size.height) as usize;
         let tileset_coords = pixset::PIXSET.get(&pixset::Pix::Empty);
         let mut data: Vec<vertex::Vertex> = Vec::with_capacity(length * 4);
 
         for i in 0..length {
-            let window_loc = [i as i32 % size.width, i as i32 / size.width as i32];
+            let screen_point = [i as i32 % size.width, i as i32 / size.width as i32];
             data.push(vertex::Vertex::new([-0.5, 0.5],
                                           tileset_coords[0],
-                                          [window_loc[0], window_loc[1] + 1]));
+                                          [screen_point[0], screen_point[1] + 1]));
             data.push(vertex::Vertex::new([0.5, 0.5],
                                           tileset_coords[1],
-                                          [window_loc[0] + 1, window_loc[1] + 1]));
+                                          [screen_point[0] + 1, screen_point[1] + 1]));
             data.push(vertex::Vertex::new([0.5, -0.5],
                                           tileset_coords[2],
-                                          [window_loc[0] + 1, window_loc[1]]));
+                                          [screen_point[0] + 1, screen_point[1]]));
             data.push(vertex::Vertex::new([-0.5, -0.5],
                                           tileset_coords[3],
-                                          [window_loc[0], window_loc[1]]));
+                                          [screen_point[0], screen_point[1]]));
         }
 
         VertexData {
@@ -42,9 +43,9 @@ impl VertexData {
     }
 
     // TODO have this take references? bench it?
-    pub fn set(&mut self, window_loc: data::WindowLoc, tile: console::Tile) {
-        let offset: usize = ((self.size.height - 1 - window_loc.y) * self.size.width +
-                             window_loc.x) as usize * 4;
+    pub fn set(&mut self, screen_point: units::ScreenPoint2D, tile: console::Tile) {
+        let offset: usize = ((self.size.height - 1 - screen_point.y) * self.size.width +
+                             screen_point.x) as usize * 4;
         let tileset_coords = pixset::PIXSET.get(&tile.pix);
 
         self.data[offset].tileset_coords = tileset_coords[0];

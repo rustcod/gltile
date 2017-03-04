@@ -11,7 +11,7 @@ fn main() {
         tile
     };
 
-    renderer.set(gltile::WindowLoc { x: 5, y: 5 }, tile);
+    renderer.set(gltile::ScreenPoint2D::new(5, 5), tile);
 
     loop {
         renderer.render();

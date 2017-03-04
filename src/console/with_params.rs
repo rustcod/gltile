@@ -1,7 +1,7 @@
 use super::{Console, Pen};
 use colors;
-use data;
 use pixset;
+use units;
 
 pub struct WithParams<'a> {
     pub console: &'a mut Console,
@@ -10,8 +10,8 @@ pub struct WithParams<'a> {
 
 impl<'a> WithParams<'a> {
     #[allow(dead_code)]
-    pub fn with_loc(&mut self, wl: data::WindowLoc) -> &mut Self {
-        self.pen.cursor_loc = wl;
+    pub fn with_pt(&mut self, pt: units::ScreenPoint2D) -> &mut Self {
+        self.pen.cursor_pt = pt;
         self
     }
 

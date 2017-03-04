@@ -1,18 +1,21 @@
 use super::Tile;
 use colors;
-use data;
+use euclid;
 use pixset;
+use units;
 
 pub struct Tiles {
-    size: data::Size,
+    size: euclid::Size2D<i32>,
     pub tiles: Vec<Tile>, // TODO impl Index
 }
 
 impl Tiles {
-    pub fn new(size: data::Size) -> Self {
+    pub fn new(size: euclid::Size2D<i32>) -> Self {
         let tiles = {
-            let mut ts = Vec::with_capacity(size.len());
-            for _ in 0..size.len() {
+            // TODO area
+            let length = (size.width * size.height) as usize;
+            let mut ts = Vec::with_capacity(length);
+            for _ in 0..length {
                 let t = Tile::new();
                 ts.push(t);
             }
@@ -25,23 +28,22 @@ impl Tiles {
         }
     }
 
+    #[allow(dead_code)]
     pub fn clear(&mut self) {
         for t in self.tiles.iter_mut() {
             t.clear();
         }
     }
 
-    // TODO WindowLoc really isn't anymore since consoles
-    // can be located offscreen and `blitted` anywhere
     pub fn set(
         &mut self,
-        cursor_loc: data::WindowLoc,
+        pt: units::ScreenPoint2D,
         pix: pixset::Pix,
         fg: colors::Srgb,
         bg: colors::Srgb
     ) {
         // TODO asserts
-        let idx = (self.size.width * cursor_loc.y + cursor_loc.x) as usize;
+        let idx = (self.size.width * pt.y + pt.x) as usize;
         self.tiles[idx].pix = pix;
         self.tiles[idx].fg = fg;
         self.tiles[idx].bg = bg;

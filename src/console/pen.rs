@@ -1,16 +1,24 @@
 use colors;
-use data;
+use units;
 
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Copy, Debug)]
 pub struct Pen {
-    pub cursor_loc: data::WindowLoc,
+    pub cursor_pt: units::ScreenPoint2D,
     pub fg: colors::Srgb,
     pub bg: colors::Srgb,
 }
 
 impl Pen {
+    pub fn new() -> Self {
+        Pen {
+            cursor_pt: units::ScreenPoint2D::zero(),
+            fg: [0.0, 0.0, 0.0],
+            bg: [0.0, 0.0, 0.0],
+        }
+    }
+
     #[allow(dead_code)]
-    pub fn offset_loc(self, offset: data::WindowLocOffset) -> Self {
-        Pen { cursor_loc: self.cursor_loc.offset(offset), ..self }
+    pub fn offset(self, offset: units::ScreenPoint2D) -> Self {
+        Pen { cursor_pt: self.cursor_pt + offset, ..self }
     }
 }

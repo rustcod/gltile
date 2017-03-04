@@ -1,15 +1,14 @@
-use Size;
 use console;
-
-use data;
+use euclid;
 use glium;
 use mvp;
 use read_file;
+use units;
 use utils;
 
 pub struct Renderer {
-    pub screen_size: Size,
-    pub size: Size,
+    pub screen_size: euclid::Size2D<i32>,
+    pub size: euclid::Size2D<i32>,
     pub display: glium::backend::glutin_backend::GlutinFacade,
     pub program: glium::Program,
     pub indices: glium::IndexBuffer<u16>,
@@ -19,9 +18,9 @@ pub struct Renderer {
 
 impl Renderer {
     pub fn new(width: i32, height: i32, tile_size: i32, texture_path: &str) -> Self {
-        let screen_size = Size::new(width, height);
-        let size = Size::new((screen_size.width / tile_size),
-                             (screen_size.height / tile_size));
+        let screen_size = euclid::Size2D::new(width, height);
+        let size = euclid::Size2D::new((screen_size.width / tile_size),
+                                       (screen_size.height / tile_size));
 
         let display = display(screen_size);
         let program = program(&display);
@@ -75,12 +74,12 @@ impl Renderer {
         target.finish().unwrap();
     }
 
-    pub fn set(&mut self, window_loc: data::WindowLoc, tile: console::Tile) {
-        self.vertex_buffer.set(window_loc, tile);
+    pub fn set(&mut self, screen_point: units::ScreenPoint2D, tile: console::Tile) {
+        self.vertex_buffer.set(screen_point, tile);
     }
 }
 
-fn display(screen_size: Size) -> glium::backend::glutin_backend::GlutinFacade {
+fn display(screen_size: euclid::Size2D<i32>) -> glium::backend::glutin_backend::GlutinFacade {
     use glium::DisplayBuild;
     glium::glutin::WindowBuilder::new()
         .with_dimensions(screen_size.width as u32, screen_size.height as u32)
@@ -96,7 +95,7 @@ fn program(display: &glium::backend::glutin_backend::GlutinFacade) -> glium::Pro
 
 fn indices(
     display: &glium::backend::glutin_backend::GlutinFacade,
-    size: Size
+    size: euclid::Size2D<i32>
 ) -> glium::IndexBuffer<u16> {
     use glium::index::PrimitiveType;
 
