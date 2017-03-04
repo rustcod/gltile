@@ -7,21 +7,47 @@ extern crate lazy_static;
 extern crate image;
 extern crate gltile;
 
-fn main() {
-    use glium::{DisplayBuild, Surface};
+//display
+//index buffer
+//vertex buffer
+//program
 
-    let screen_size = gltile::Size::new(1536 /* 96 */, 1024 /* 64 */);
-
-    let display = glium::glutin::WindowBuilder::new()
+fn display(screen_size: gltile::Size) -> glium::backend::glutin_backend::GlutinFacade {
+    use glium::DisplayBuild;
+    glium::glutin::WindowBuilder::new()
         .with_dimensions(screen_size.width as u32, screen_size.height as u32)
         .build_glium()
-        .unwrap();
+        .unwrap()
+}
 
+fn program(display: &glium::backend::glutin_backend::GlutinFacade) -> glium::Program {
     let vertex = gltile::read_file("shaders/vertex.glsl")
         .expect("could not find shaders/vertex.glsl");
     let fragment = gltile::read_file("shaders/fragment.glsl")
         .expect("could not find shaders/fragment.glsl");
-    let program = glium::Program::from_source(&display, &vertex, &fragment, None).unwrap();
+    glium::Program::from_source(display as &glium::backend::Facade, &vertex, &fragment, None)
+        .unwrap()
+}
+
+fn indices(size: gltile::Size,
+           display: &glium::backend::glutin_backend::GlutinFacade)
+           -> glium::IndexBuffer<u16> {
+    use glium::index::PrimitiveType;
+
+    let indices = gltile::indices((size.width * size.height) as usize);
+    glium::IndexBuffer::new(display as &glium::backend::Facade,
+                            PrimitiveType::TrianglesList,
+                            &indices)
+        .unwrap()
+}
+
+fn main() {
+    use glium::Surface;
+
+    let tile_size = gltile::Size::new(16, 16);
+    let screen_size = gltile::Size::new(1536 /* 96 */, 1024 /* 64 */);
+    let display = display(screen_size);
+    let program = program(&display);
 
     let texture = {
         let tileset = gltile::read_png_to_texture(&include_bytes!("../assets/tileset.png")[..]);
@@ -30,16 +56,10 @@ fn main() {
 
     let tileset = texture.sampled().magnify_filter(glium::uniforms::MagnifySamplerFilter::Nearest);
 
-    // TODO hardcoded
-    let size = gltile::Size::new((screen_size.width as f32 / 16.0) as i32,
-                                 (screen_size.height as f32 / 16.0) as i32);
+    let size = gltile::Size::new((screen_size.width / tile_size.width),
+                                 (screen_size.height / tile_size.height));
 
-    let indices = {
-        use glium::index::PrimitiveType;
-
-        let indices = gltile::indices((size.width * size.height) as usize);
-        glium::IndexBuffer::new(&display, PrimitiveType::TrianglesList, &indices).unwrap()
-    };
+    let indices = indices(size, &display);
 
     let cam_uniforms = {
         let mat4_id = gltile::mat4_id();
