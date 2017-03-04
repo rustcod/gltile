@@ -1,17 +1,8 @@
-#[macro_use]
 extern crate glium;
-
-#[macro_use]
-extern crate lazy_static;
-
-extern crate image;
 extern crate gltile;
 
 fn main() {
-    let mut renderer = gltile::Renderer::new(1536, /* 96 */
-                                             1024, /* 64 */
-                                             16,
-                                             "assets/tileset.png");
+    let mut renderer = gltile::Renderer::new(1536, 1024, 16, "assets/tileset.png");
 
     let tile = {
         let mut tile = gltile::Tile::new();
