@@ -1,16 +1,15 @@
 use super::Tile;
 use colors;
-use euclid;
 use pixset;
 use units;
 
 pub struct Tiles {
-    size: euclid::Size2D<i32>,
+    size: units::Size2D,
     pub tiles: Vec<Tile>, // TODO impl Index
 }
 
 impl Tiles {
-    pub fn new(size: euclid::Size2D<i32>) -> Self {
+    pub fn new(size: units::Size2D) -> Self {
         let tiles = {
             // TODO area
             let length = (size.width * size.height) as usize;

@@ -1,17 +1,16 @@
 use console;
-use euclid;
 use pixset;
 use units;
 use vertex;
 
 pub struct VertexData {
     data: Vec<vertex::Vertex>,
-    size: euclid::Size2D<i32>,
+    size: units::Size2D,
 }
 
 // TODO remove Size
 impl VertexData {
-    pub fn new(size: euclid::Size2D<i32>) -> Self {
+    pub fn new(size: units::Size2D) -> Self {
         let length = (size.width * size.height) as usize;
         let tileset_coords = pixset::PIXSET.get(&pixset::Pix::Empty);
         let mut data: Vec<vertex::Vertex> = Vec::with_capacity(length * 4);

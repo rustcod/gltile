@@ -1,14 +1,14 @@
-use euclid;
 use glium;
 use mvp;
 use std;
+use units;
 
 pub fn mat4_id() -> mvp::Matrix4 {
     // TODO lazy_static!
     [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]]
 }
 
-pub fn ortho_projection(screen_size: euclid::Size2D<i32>) -> mvp::Matrix4 {
+pub fn ortho_projection(screen_size: units::Size2D) -> mvp::Matrix4 {
     let o_w = 2.0 / screen_size.width as f32;
     let o_h = 2.0 / screen_size.height as f32;
 

@@ -1,17 +1,16 @@
 use super::{Pen, Tile, Tiles, WithParams};
 use colors;
-use euclid;
 use pixset;
 use units;
 
 pub struct Console {
-    pub size: euclid::Size2D<i32>,
+    pub size: units::Size2D,
     tiles: Tiles,
     pen: Pen,
 }
 
 impl Console {
-    pub fn new(size: euclid::Size2D<i32>) -> Self {
+    pub fn new(size: units::Size2D) -> Self {
         Console {
             size: size,
             tiles: Tiles::new(size),

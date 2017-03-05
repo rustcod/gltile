@@ -1,5 +1,4 @@
 use super::{Console, Tile};
-use euclid;
 use units;
 use vertex;
 
@@ -8,7 +7,7 @@ pub struct VertexBuffer {
 }
 
 impl VertexBuffer {
-    pub fn new(size: euclid::Size2D<i32>) -> Self {
+    pub fn new(size: units::Size2D) -> Self {
         VertexBuffer { vertex_data: vertex::VertexData::new(size) }
     }
 
