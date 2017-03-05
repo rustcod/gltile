@@ -13,6 +13,7 @@ mod console;
 mod mvp;
 mod pixset;
 mod renderer;
+mod shaders;
 mod units;
 mod utils;
 mod vertex;

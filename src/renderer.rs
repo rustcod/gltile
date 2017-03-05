@@ -1,7 +1,7 @@
 use console;
 use glium;
 use mvp;
-use read_file;
+use shaders;
 use units;
 use utils;
 
@@ -87,9 +87,11 @@ fn display(screen_size: units::Size2D) -> glium::backend::glutin_backend::Glutin
 }
 
 fn program(display: &glium::backend::glutin_backend::GlutinFacade) -> glium::Program {
-    let vertex = read_file("shaders/vertex.glsl").expect("could not find shaders/vertex.glsl");
-    let frag = read_file("shaders/fragment.glsl").expect("could not find shaders/fragment.glsl");
-    glium::Program::from_source(display as &glium::backend::Facade, &vertex, &frag, None).unwrap()
+    glium::Program::from_source(display as &glium::backend::Facade,
+                                &shaders::VERTEX,
+                                &shaders::FRAGMENT,
+                                None)
+        .unwrap()
 }
 
 fn indices(
