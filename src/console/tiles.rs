@@ -38,8 +38,8 @@ impl Tiles {
         &mut self,
         pt: units::ScreenPoint2D,
         pix: pixset::Pix,
-        fg: colors::Srgb,
-        bg: colors::Srgb
+        fg: colors::Rgb,
+        bg: colors::Rgb
     ) {
         // TODO asserts
         let idx = (self.size.width * pt.y + pt.x) as usize;

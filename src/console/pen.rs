@@ -4,8 +4,8 @@ use units;
 #[derive(Clone, Copy, Debug)]
 pub struct Pen {
     pub cursor_pt: units::ScreenPoint2D,
-    pub fg: colors::Srgb,
-    pub bg: colors::Srgb,
+    pub fg: colors::Rgb,
+    pub bg: colors::Rgb,
 }
 
 impl Pen {

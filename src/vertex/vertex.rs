@@ -5,8 +5,8 @@ pub struct Vertex {
     pub position: [f32; 2],
     pub tileset_coords: [f32; 2],
     pub screen_point: [i32; 2],
-    pub foreground_color: colors::Srgb,
-    pub background_color: colors::Srgb,
+    pub foreground_color: colors::Rgb,
+    pub background_color: colors::Rgb,
 }
 
 implement_vertex!(Vertex,

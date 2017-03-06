@@ -28,12 +28,12 @@ impl Console {
         self
     }
 
-    pub fn set_fg(&mut self, color: colors::Srgb) -> &mut Self {
+    pub fn set_fg(&mut self, color: colors::Rgb) -> &mut Self {
         self.pen.fg = color;
         self
     }
 
-    pub fn set_bg(&mut self, color: colors::Srgb) -> &mut Self {
+    pub fn set_bg(&mut self, color: colors::Rgb) -> &mut Self {
         self.pen.bg = color;
         self
     }
@@ -72,7 +72,7 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_fg(&mut self, fg: colors::Srgb) -> WithParams {
+    pub fn with_fg(&mut self, fg: colors::Rgb) -> WithParams {
         let cursor_pt = self.pen.cursor_pt;
         let bg = self.pen.bg;
 
@@ -88,7 +88,7 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_bg(&mut self, bg: colors::Srgb) -> WithParams {
+    pub fn with_bg(&mut self, bg: colors::Rgb) -> WithParams {
         let cursor_pt = self.pen.cursor_pt;
         let fg = self.pen.fg;
 

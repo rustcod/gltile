@@ -16,13 +16,13 @@ impl<'a> WithParams<'a> {
     }
 
     #[allow(dead_code)]
-    pub fn with_fg(&mut self, fg: colors::Srgb) -> &mut Self {
+    pub fn with_fg(&mut self, fg: colors::Rgb) -> &mut Self {
         self.pen.fg = fg;
         self
     }
 
     #[allow(dead_code)]
-    pub fn with_bg(&mut self, bg: colors::Srgb) -> &mut Self {
+    pub fn with_bg(&mut self, bg: colors::Rgb) -> &mut Self {
         self.pen.bg = bg;
         self
     }

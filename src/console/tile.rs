@@ -3,8 +3,8 @@ use pixset;
 
 #[derive(Clone, Copy, Debug, Default)]
 pub struct Tile {
-    pub fg: colors::Srgb,
-    pub bg: colors::Srgb,
+    pub fg: colors::Rgb,
+    pub bg: colors::Rgb,
     pub pix: pixset::Pix,
 }
 
