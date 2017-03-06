@@ -10,6 +10,7 @@ extern crate palette;
 
 pub mod colors; // TODO
 mod console;
+pub mod font; // TODO
 mod mvp;
 mod pixset;
 mod renderer;
