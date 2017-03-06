@@ -111,7 +111,7 @@ fn texture(
     display: &glium::backend::glutin_backend::GlutinFacade,
     path: &str
 ) -> glium::texture::Texture2d {
-    let png = utils::read_bytes(path).expect("Texture not found");
+    let png = utils::read_bytes(path).expect(&format!("Texture not found: {}", path)[..]);
     let texture = utils::read_png_to_texture(&png[..]);
     glium::texture::Texture2d::new(display as &glium::backend::Facade, texture).unwrap()
 }
