@@ -11,3 +11,4 @@ palette = "0.2.1"
 euclid = "0.11"
 
 [dev-dependencies]
+looper = { git = "https://github.com/dobrite/looper-rs" }
