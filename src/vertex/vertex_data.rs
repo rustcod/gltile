@@ -16,19 +16,19 @@ impl VertexData {
         let mut data: Vec<vertex::Vertex> = Vec::with_capacity(length * 4);
 
         for i in 0..length {
-            let screen_point = [i as i32 % size.width, i as i32 / size.width as i32];
+            let screen_loc = [i as i32 % size.width, i as i32 / size.width as i32];
             data.push(vertex::Vertex::new([-0.5, 0.5],
                                           tileset_coords[0],
-                                          [screen_point[0], screen_point[1] + 1]));
+                                          [screen_loc[0], screen_loc[1] + 1]));
             data.push(vertex::Vertex::new([0.5, 0.5],
                                           tileset_coords[1],
-                                          [screen_point[0] + 1, screen_point[1] + 1]));
+                                          [screen_loc[0] + 1, screen_loc[1] + 1]));
             data.push(vertex::Vertex::new([0.5, -0.5],
                                           tileset_coords[2],
-                                          [screen_point[0] + 1, screen_point[1]]));
+                                          [screen_loc[0] + 1, screen_loc[1]]));
             data.push(vertex::Vertex::new([-0.5, -0.5],
                                           tileset_coords[3],
-                                          [screen_point[0], screen_point[1]]));
+                                          [screen_loc[0], screen_loc[1]]));
         }
 
         VertexData {
@@ -42,9 +42,9 @@ impl VertexData {
     }
 
     // TODO have this take references? bench it?
-    pub fn set(&mut self, screen_point: units::ScreenPoint2D, tile: console::Tile) {
-        let offset: usize = ((self.size.height - 1 - screen_point.y) * self.size.width +
-                             screen_point.x) as usize * 4;
+    pub fn set(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile) {
+        let offset: usize = ((self.size.height - 1 - screen_loc.y) * self.size.width +
+                             screen_loc.x) as usize * 4;
         let tileset_coords = pixset::PIXSET.get(&tile.pix);
 
         self.data[offset].tileset_coords = tileset_coords[0];

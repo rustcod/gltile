@@ -93,9 +93,9 @@ impl<'a> FontIter<'a> {
 }
 
 impl<'a> Iterator for FontIter<'a> {
-    type Item = (Pix, units::ScreenPoint2D);
+    type Item = (Pix, units::ScreenTile2D);
 
-    fn next(&mut self) -> Option<(Pix, units::ScreenPoint2D)> {
+    fn next(&mut self) -> Option<(Pix, units::ScreenTile2D)> {
         if self.idx == self.string.len() {
             None
         } else {
@@ -104,7 +104,7 @@ impl<'a> Iterator for FontIter<'a> {
             let pix = CH_TO_PIX.get(&ch).expect(format!("no ch for that pix: {}", ch).as_str());
             let x = self.idx;
             self.idx += 1;
-            Some((*pix, units::ScreenPoint2D::new(x as i32, 0)))
+            Some((*pix, units::ScreenTile2D::new(x as i32, 0)))
         }
     }
 }

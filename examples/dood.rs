@@ -19,7 +19,7 @@ fn main() {
         tile
     };
 
-    renderer.set(gltile::ScreenPoint2D::new(5, 5), tile);
+    renderer.set(gltile::ScreenTile2D::new(5, 5), tile);
 
     looper::Looper::new(60.0).run(|| {
         renderer.render();

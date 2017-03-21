@@ -10,8 +10,8 @@ pub struct WithParams<'a> {
 
 impl<'a> WithParams<'a> {
     #[allow(dead_code)]
-    pub fn with_pt(&mut self, pt: units::ScreenPoint2D) -> &mut Self {
-        self.pen.cursor_pt = pt;
+    pub fn with_loc(&mut self, loc: units::ScreenTile2D) -> &mut Self {
+        self.pen.cursor_loc = loc;
         self
     }
 

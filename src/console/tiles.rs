@@ -36,13 +36,13 @@ impl Tiles {
 
     pub fn set(
         &mut self,
-        pt: units::ScreenPoint2D,
+        loc: units::ScreenTile2D,
         pix: pixset::Pix,
         fg: colors::Rgb,
         bg: colors::Rgb
     ) {
         // TODO asserts
-        let idx = (self.size.width * pt.y + pt.x) as usize;
+        let idx = (self.size.width * loc.y + loc.x) as usize;
         self.tiles[idx].pix = pix;
         self.tiles[idx].fg = fg;
         self.tiles[idx].bg = bg;

@@ -25,7 +25,6 @@ pub use console::VertexBuffer;
 pub use mvp::model_view_projection;
 pub use pixset::{Pix, Pixset};
 pub use renderer::Renderer;
-pub use units::ScreenPoint2D;
 pub use utils::indices;
 pub use utils::mat4_id;
 pub use utils::ortho_projection;

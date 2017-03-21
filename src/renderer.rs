@@ -83,8 +83,8 @@ impl<'a> Renderer<'a> {
         target.finish().unwrap();
     }
 
-    pub fn set(&mut self, screen_point: units::ScreenPoint2D, tile: console::Tile) {
-        self.vertex_buffer.set(screen_point, tile);
+    pub fn set(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile) {
+        self.vertex_buffer.set(screen_loc, tile);
     }
 }
 

@@ -23,8 +23,8 @@ impl Console {
         self.tiles.tiles[(self.size.width * y + x) as usize]
     }
 
-    pub fn set_pt(&mut self, screen_point: units::ScreenPoint2D) -> &mut Self {
-        self.pen.cursor_pt = screen_point;
+    pub fn set_loc(&mut self, screen_loc: units::ScreenTile2D) -> &mut Self {
+        self.pen.cursor_loc = screen_loc;
         self
     }
 
@@ -39,7 +39,7 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_pt(&mut self, screen_point: units::ScreenPoint2D) -> WithParams {
+    pub fn with_loc(&mut self, screen_loc: units::ScreenTile2D) -> WithParams {
         let fg = self.pen.fg;
         let bg = self.pen.bg;
 
@@ -47,7 +47,7 @@ impl Console {
         WithParams {
             console: self,
             pen: Pen {
-                cursor_pt: screen_point,
+                cursor_loc: screen_loc,
                 fg: fg,
                 bg: bg,
             },
@@ -55,16 +55,16 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_offset(&mut self, offset: units::ScreenPoint2D) -> WithParams {
+    pub fn with_offset(&mut self, offset: units::ScreenTile2D) -> WithParams {
         let fg = self.pen.fg;
         let bg = self.pen.bg;
-        let screen_point = self.pen.cursor_pt + offset;
+        let screen_loc = self.pen.cursor_loc + offset;
 
         // TODO new
         WithParams {
             console: self,
             pen: Pen {
-                cursor_pt: screen_point,
+                cursor_loc: screen_loc,
                 fg: fg,
                 bg: bg,
             },
@@ -73,14 +73,14 @@ impl Console {
 
     #[allow(dead_code)]
     pub fn with_fg(&mut self, fg: colors::Rgb) -> WithParams {
-        let cursor_pt = self.pen.cursor_pt;
+        let cursor_loc = self.pen.cursor_loc;
         let bg = self.pen.bg;
 
         // TODO new
         WithParams {
             console: self,
             pen: Pen {
-                cursor_pt: cursor_pt,
+                cursor_loc: cursor_loc,
                 fg: fg,
                 bg: bg,
             },
@@ -89,14 +89,14 @@ impl Console {
 
     #[allow(dead_code)]
     pub fn with_bg(&mut self, bg: colors::Rgb) -> WithParams {
-        let cursor_pt = self.pen.cursor_pt;
+        let cursor_loc = self.pen.cursor_loc;
         let fg = self.pen.fg;
 
         // TODO new
         WithParams {
             console: self,
             pen: Pen {
-                cursor_pt: cursor_pt,
+                cursor_loc: cursor_loc,
                 fg: fg,
                 bg: bg,
             },
@@ -110,7 +110,7 @@ impl Console {
     }
 
     pub fn set_with_pen<'a>(&mut self, pix: pixset::Pix, pen: Pen) {
-        self.tiles.set(pen.cursor_pt, pix, pen.fg, pen.bg);
+        self.tiles.set(pen.cursor_loc, pix, pen.fg, pen.bg);
     }
 
     // +x is right
@@ -118,7 +118,7 @@ impl Console {
     pub fn set_rect(&mut self, x: u32, y: u32) {
         for d_x in 0..x {
             for d_y in 0..y {
-                let offset = units::ScreenPoint2D::new(d_x as i32, d_y as i32);
+                let offset = units::ScreenTile2D::new(d_x as i32, d_y as i32);
                 self.with_offset(offset).set_pix(pixset::Pix::Empty);
             }
         }
