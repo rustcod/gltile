@@ -4,7 +4,7 @@ use pixset;
 use units;
 
 pub struct Console {
-    pub size: units::Size2D,
+    size: units::Size2D,
     tiles: Tiles,
     pen: Pen,
 }
@@ -16,6 +16,14 @@ impl Console {
             tiles: Tiles::new(size),
             pen: Pen::new(),
         }
+    }
+
+    pub fn get_width(&self) -> i32 {
+        self.size.width
+    }
+
+    pub fn get_height(&self) -> i32 {
+        self.size.height
     }
 
     pub fn get_tile(&self, x: i32, y: i32) -> Tile {

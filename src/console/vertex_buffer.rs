@@ -21,8 +21,8 @@ impl VertexBuffer {
 
     pub fn blit_console(&mut self, console: &Console, screen_loc: units::ScreenTile2D) {
         // TODO iter ?
-        for y in 0..console.size.height {
-            for x in 0..console.size.width {
+        for y in 0..console.get_height() {
+            for x in 0..console.get_width() {
                 let loc = screen_loc + units::ScreenTile2D::new(x as i32, y as i32);
                 self.vertex_data.set(loc, console.get_tile(x, y))
             }
