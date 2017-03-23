@@ -19,10 +19,14 @@ fn main() {
         tile
     };
 
-    renderer.set(gltile::ScreenTile2D::new(5, 5), tile);
+    renderer.set(gltile::units::ScreenTile2D::new(5, 5), tile);
 
-    looper::Looper::new(60.0).run(|| {
+    let render = || {
         renderer.render();
+        looper::Action::Continue
+    };
+
+    let update = || {
         for ev in display.poll_events() {
             match ev {
                 glium::glutin::Event::Closed => return looper::Action::Stop,
@@ -30,5 +34,7 @@ fn main() {
             }
         }
         looper::Action::Continue
-    })
+    };
+
+    looper::Looper::new(60.0).run(render, update);
 }
