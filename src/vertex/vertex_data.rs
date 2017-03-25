@@ -14,9 +14,10 @@ impl VertexData {
         let length = (size.width * size.height) as usize;
         let (lt, rt, rb, lb) = pixset::PIXSET.get(&pixset::Pix::Empty);
         let mut data: Vec<vertex::Vertex> = Vec::with_capacity(length * 4);
+        let inv_y = size.height % size.width - 1;
 
         for i in 0..length {
-            let (x, y) = (i as i32 % size.width, i as i32 / size.width as i32);
+            let (x, y) = (i as i32 % size.width, inv_y - i as i32 / size.width as i32);
             data.push(vertex::Vertex::new([-0.5, 0.5], lt, [x, y + 1]));
             data.push(vertex::Vertex::new([0.5, 0.5], rt, [x + 1, y + 1]));
             data.push(vertex::Vertex::new([0.5, -0.5], rb, [x + 1, y]));
@@ -33,11 +34,8 @@ impl VertexData {
         &self.data[..]
     }
 
-    // TODO have this take references? bench it?
     pub fn set(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile) {
-        //let offset = ((self.size.width * screen_loc.y + screen_loc.x) * 4) as usize;
-        let offset: usize = ((self.size.height - 1 - screen_loc.y) * self.size.width +
-                             screen_loc.x) as usize * 4;
+        let offset = ((self.size.width * screen_loc.y + screen_loc.x) * 4) as usize;
         let (lt, rt, rb, lb) = pixset::PIXSET.get(&tile.pix);
 
         self.data[offset].tileset_coords = lt;
