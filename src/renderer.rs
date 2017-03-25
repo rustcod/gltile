@@ -57,10 +57,15 @@ impl<'a> Renderer<'a> {
             let mat4_id = utils::mat4_id();
             let ortho_projection = utils::ortho_projection(self.screen_size);
 
+            // 1, 0, 0, X
+            // 0, 1, 0, Y
+            // 0, 0, 1, 0
+            // 0, 0, 0, 1
+
             let cam = [[1.0, 0.0, 0.0, 0.0],
                        [0.0, 1.0, 0.0, 0.0],
                        [0.0, 0.0, 1.0, 0.0],
-                       [-768.0, -512.0, 0.0, 1.0]];
+                       [0.0, 0.0, 0.0, 1.0]]; // X, Y
 
             let tileset = self.texture
                 .sampled()

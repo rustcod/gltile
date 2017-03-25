@@ -8,12 +8,20 @@ pub fn mat4_id() -> mvp::Matrix4 {
     [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]]
 }
 
+// 2 / (r - l), 0,           0,            -((r + l) / (r - l))
+// 0,           2 / (t - b), 0,            -((t + b) / (t - b))
+// 0,           0,           -2 / (f - n), -((f + n) / (f - n))
+// 0,           0,           0,          , 1
+
+// w, 0,      0, -1
+// 0, h,      0, -1
+// 0, 0, -0.002, -1
+// 0, 0,      0,  1
 pub fn ortho_projection(screen_size: units::Size2D) -> mvp::Matrix4 {
     let o_w = 2.0 / screen_size.width as f32;
     let o_h = 2.0 / screen_size.height as f32;
 
-    // TODO make this better?
-    [[o_w, 0.0, 0.0, 0.0], [0.0, o_h, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]]
+    [[o_w, 0.0, 0.0, 0.0], [0.0, o_h, 0.0, 0.0], [0.0, 0.0, -0.002, 0.0], [-1.0, -1.0, -1.0, 1.0]]
 }
 
 pub fn read_file(path: &str) -> std::io::Result<(String)> {
