@@ -1,7 +1,7 @@
 use std;
 use std::collections::HashMap;
 
-pub type TexCoords = [[f32; 2]; 4];
+pub type TexCoords = ([f32; 2], [f32; 2], [f32; 2], [f32; 2]);
 
 lazy_static! {
     pub static ref PIXSET: Pixset  = Pixset::new(100);
@@ -155,5 +155,5 @@ fn get_tex_coords(total_tiles: i32, loc: Vec<i32>) -> TexCoords {
     let bottom = (1.0 - (loc[1] + 1) as f32 * per_tile) + fudge_factor;
     let left = (loc[0] as f32 * per_tile) + fudge_factor;
 
-    [[left, top], [right, top], [right, bottom], [left, bottom]]
+    ([left, top], [right, top], [right, bottom], [left, bottom])
 }
