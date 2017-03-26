@@ -21,12 +21,12 @@ fn main() {
 
     renderer.set(gltile::units::ScreenTile2D::new(5, 5), tile);
 
-    let render = || {
+    let render = |_| {
         renderer.render();
         looper::Action::Continue
     };
 
-    let update = || {
+    let update = |_| {
         for ev in display.poll_events() {
             match ev {
                 glium::glutin::Event::Closed => return looper::Action::Stop,

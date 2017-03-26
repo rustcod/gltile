@@ -37,15 +37,14 @@ fn main() {
     let x = Range::new(0, 96);
     let y = Range::new(0, 64);
 
-    looper::Looper::new(60.0).run(|| {
-        //println!("{:?}", fps);
+    looper::Looper::new(60.0).run(|_| {
         let tile = rng.gen::<RandomTile>().to_tile();
         let loc = gltile::units::ScreenTile2D::new(x.ind_sample(&mut rng), y.ind_sample(&mut rng));
         renderer.set(loc, tile);
         renderer.render();
         looper::Action::Continue
     },
-                                  || {
+                                  |_| {
         for ev in display.poll_events() {
             match ev {
                 glium::glutin::Event::Closed => return looper::Action::Stop,
