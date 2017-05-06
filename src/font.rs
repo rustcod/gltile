@@ -110,8 +110,13 @@ impl<'a> Iterator for FontIter<'a> {
             None
         } else {
             // TODO can this be better?
-            let ch = self.string.chars().nth(self.idx).expect("no char at that index");
-            let pix = CH_TO_PIX.get(&ch).expect(format!("no ch for that pix: {}", ch).as_str());
+            let ch = self.string
+                .chars()
+                .nth(self.idx)
+                .expect("no char at that index");
+            let pix = CH_TO_PIX
+                .get(&ch)
+                .expect(format!("no ch for that pix: {}", ch).as_str());
             let x = self.idx;
             self.idx += 1;
             Some((*pix, units::ScreenTile2D::new(x as i32, 0)))

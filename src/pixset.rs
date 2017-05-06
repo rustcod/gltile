@@ -161,7 +161,9 @@ impl Pixset {
     }
 
     pub fn get(&self, pix: &Pix) -> TexCoords {
-        *self.tiles.get(pix).expect("tile did not contain that pix")
+        *self.tiles
+             .get(pix)
+             .expect("tile did not contain that pix")
     }
 }
 

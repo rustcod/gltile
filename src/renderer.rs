@@ -8,8 +8,10 @@ use utils;
 fn get_screen_size(display: &glium::backend::glutin_backend::GlutinFacade) -> units::Size2D {
     let factor = display.get_window().unwrap().hidpi_factor();
     let (width, height) = display.get_framebuffer_dimensions();
-    units::Size2D::new((width as f32 / factor) as i32,
-                       (height as f32 / factor) as i32)
+    units::Size2D::new(
+        (width as f32 / factor) as i32,
+        (height as f32 / factor) as i32,
+    )
 }
 
 pub struct Renderer<'a> {
@@ -26,11 +28,13 @@ impl<'a> Renderer<'a> {
     pub fn new(
         display: &'a glium::backend::glutin_backend::GlutinFacade,
         tile_size: i32,
-        texture_path: &str
+        texture_path: &str,
     ) -> Self {
         let screen_size = get_screen_size(display);
-        let size = units::Size2D::new((screen_size.width / tile_size),
-                                      (screen_size.height / tile_size));
+        let size = units::Size2D::new(
+            (screen_size.width / tile_size),
+            (screen_size.height / tile_size),
+        );
 
         let program = program(display);
         let indices = indices(display, size);
@@ -62,10 +66,12 @@ impl<'a> Renderer<'a> {
             // 0, 0, 1, 0
             // 0, 0, 0, 1
 
-            let cam = [[1.0, 0.0, 0.0, 0.0],
-                       [0.0, 1.0, 0.0, 0.0],
-                       [0.0, 0.0, 1.0, 0.0],
-                       [0.0, 0.0, 0.0, 1.0]]; // X, Y
+            let cam = [
+                [1.0, 0.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0, 0.0],
+                [0.0, 0.0, 1.0, 0.0],
+                [0.0, 0.0, 0.0, 1.0],
+            ]; // X, Y
 
             let tileset = self.texture
                 .sampled()
@@ -79,11 +85,14 @@ impl<'a> Renderer<'a> {
 
         let mut target = self.display.draw();
         target.clear_color(0.0, 0.0, 0.0, 1.0);
-        target.draw(&vb,
-                  &self.indices,
-                  &self.program,
-                  &cam_uniforms,
-                  &Default::default())
+        target
+            .draw(
+                &vb,
+                &self.indices,
+                &self.program,
+                &cam_uniforms,
+                &Default::default(),
+            )
             .unwrap();
         target.finish().unwrap();
     }
@@ -94,29 +103,33 @@ impl<'a> Renderer<'a> {
 }
 
 fn program(display: &glium::backend::glutin_backend::GlutinFacade) -> glium::Program {
-    glium::Program::from_source(display as &glium::backend::Facade,
-                                &shaders::VERTEX,
-                                &shaders::FRAGMENT,
-                                None)
-        .unwrap()
+    glium::Program::from_source(
+        display as &glium::backend::Facade,
+        &shaders::VERTEX,
+        &shaders::FRAGMENT,
+        None,
+    )
+            .unwrap()
 }
 
 fn indices(
     display: &glium::backend::glutin_backend::GlutinFacade,
-    size: units::Size2D
+    size: units::Size2D,
 ) -> glium::IndexBuffer<u16> {
     use glium::index::PrimitiveType;
 
     let indices = utils::indices((size.width * size.height) as usize);
-    glium::IndexBuffer::new(display as &glium::backend::Facade,
-                            PrimitiveType::TrianglesList,
-                            &indices)
-        .unwrap()
+    glium::IndexBuffer::new(
+        display as &glium::backend::Facade,
+        PrimitiveType::TrianglesList,
+        &indices,
+    )
+            .unwrap()
 }
 
 fn texture(
     display: &glium::backend::glutin_backend::GlutinFacade,
-    path: &str
+    path: &str,
 ) -> glium::texture::Texture2d {
     let png = utils::read_bytes(path).expect(&format!("Texture not found: {}", path)[..]);
     let texture = utils::read_png_to_texture(&png[..]);

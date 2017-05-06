@@ -19,6 +19,9 @@ impl Pen {
 
     #[allow(dead_code)]
     pub fn offset(self, offset: units::ScreenTile2D) -> Self {
-        Pen { cursor_loc: self.cursor_loc + offset, ..self }
+        Pen {
+            cursor_loc: self.cursor_loc + offset,
+            ..self
+        }
     }
 }

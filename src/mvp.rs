@@ -10,17 +10,21 @@ pub fn model_view_projection(model: Matrix4, view: Matrix4, projection: Matrix4)
 }
 
 fn col_mat4_mul(a: Matrix4, b: Matrix4) -> Matrix4 {
-    [col_mat4_mul_col(a, b, 0),
-     col_mat4_mul_col(a, b, 1),
-     col_mat4_mul_col(a, b, 2),
-     col_mat4_mul_col(a, b, 3)]
+    [
+        col_mat4_mul_col(a, b, 0),
+        col_mat4_mul_col(a, b, 1),
+        col_mat4_mul_col(a, b, 2),
+        col_mat4_mul_col(a, b, 3),
+    ]
 }
 
 fn col_mat4_mul_col(a: Matrix4, b: Matrix4, i: usize) -> Vector4 {
-    [vec4_dot(col_mat4_row(a, 0), b[i]),
-     vec4_dot(col_mat4_row(a, 1), b[i]),
-     vec4_dot(col_mat4_row(a, 2), b[i]),
-     vec4_dot(col_mat4_row(a, 3), b[i])]
+    [
+        vec4_dot(col_mat4_row(a, 0), b[i]),
+        vec4_dot(col_mat4_row(a, 1), b[i]),
+        vec4_dot(col_mat4_row(a, 2), b[i]),
+        vec4_dot(col_mat4_row(a, 3), b[i]),
+    ]
 }
 
 fn vec4_dot(a: Vector4, b: Vector4) -> f32 {

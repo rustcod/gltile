@@ -1,3 +1,8 @@
-fn_args_layout = "Block"
 reorder_imported_names = true
 reorder_imports = true
+fn_args_layout = "Block"
+array_layout = "Block"
+control_style = "Rfc"
+where_style = "Rfc"
+generics_indent = "Block"
+fn_call_style = "Block"

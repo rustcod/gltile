@@ -39,7 +39,7 @@ impl Tiles {
         loc: units::ScreenTile2D,
         pix: pixset::Pix,
         fg: colors::Rgb,
-        bg: colors::Rgb
+        bg: colors::Rgb,
     ) {
         // TODO asserts
         let idx = (self.size.width * loc.y + loc.x) as usize;

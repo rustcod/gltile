@@ -5,7 +5,12 @@ use units;
 
 pub fn mat4_id() -> mvp::Matrix4 {
     // TODO lazy_static!
-    [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]]
+    [
+        [1.0, 0.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0, 0.0],
+        [0.0, 0.0, 1.0, 0.0],
+        [0.0, 0.0, 0.0, 1.0],
+    ]
 }
 
 // 2 / (r - l), 0,           0,            -((r + l) / (r - l))
@@ -21,7 +26,12 @@ pub fn ortho_projection(screen_size: units::Size2D) -> mvp::Matrix4 {
     let o_w = 2.0 / screen_size.width as f32;
     let o_h = 2.0 / screen_size.height as f32;
 
-    [[o_w, 0.0, 0.0, 0.0], [0.0, o_h, 0.0, 0.0], [0.0, 0.0, -0.002, 0.0], [-1.0, -1.0, -1.0, 1.0]]
+    [
+        [o_w, 0.0, 0.0, 0.0],
+        [0.0, o_h, 0.0, 0.0],
+        [0.0, 0.0, -0.002, 0.0],
+        [-1.0, -1.0, -1.0, 1.0],
+    ]
 }
 
 pub fn read_file(path: &str) -> std::io::Result<(String)> {
@@ -48,7 +58,9 @@ pub fn read_bytes(path: &str) -> std::io::Result<Vec<u8>> {
 pub fn read_png_to_texture(bytes: &[u8]) -> glium::texture::RawImage2d<u8> {
     use image;
 
-    let image = image::load(std::io::Cursor::new(bytes), image::PNG).unwrap().to_rgba();
+    let image = image::load(std::io::Cursor::new(bytes), image::PNG)
+        .unwrap()
+        .to_rgba();
     let image_dimensions = image.dimensions();
     glium::texture::RawImage2d::from_raw_rgba_reversed(image.into_raw(), image_dimensions)
 }
@@ -56,8 +68,13 @@ pub fn read_png_to_texture(bytes: &[u8]) -> glium::texture::RawImage2d<u8> {
 pub fn indices(length: usize) -> Vec<u16> {
     (0..length)
         .into_iter()
-        .flat_map(|i| {
-            vec![0, 1, 2, 0, 2, 3].into_iter().map(|j| (j + i * 4) as u16).collect::<Vec<u16>>()
-        })
+        .flat_map(
+            |i| {
+                vec![0, 1, 2, 0, 2, 3]
+                    .into_iter()
+                    .map(|j| (j + i * 4) as u16)
+                    .collect::<Vec<u16>>()
+            },
+        )
         .collect()
 }
