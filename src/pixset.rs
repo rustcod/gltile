@@ -57,7 +57,17 @@ lazy_static! {
         Pix::LeftStraight,
         Pix::RightStraight,
         Pix::TopStraight,
-        Pix::BottomStraight
+        Pix::BottomStraight,
+        Pix::Zero,
+        Pix::One,
+        Pix::Two,
+        Pix::Three,
+        Pix::Four,
+        Pix::Five,
+        Pix::Six,
+        Pix::Seven,
+        Pix::Eight,
+        Pix::Nine,
     ];
 }
 
@@ -111,6 +121,16 @@ pub enum Pix {
     RightStraight,
     TopStraight,
     BottomStraight,
+    Zero,
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Seven,
+    Eight,
+    Nine,
 }
 
 impl std::default::Default for Pix {

@@ -66,6 +66,16 @@ lazy_static! {
         m.insert('\'', Pix::Apostrophe);
         m.insert(':', Pix::Colon);
         m.insert(';', Pix::SemiColon);
+        m.insert('0', Pix::Zero);
+        m.insert('1', Pix::One);
+        m.insert('2', Pix::Two);
+        m.insert('3', Pix::Three);
+        m.insert('4', Pix::Four);
+        m.insert('5', Pix::Five);
+        m.insert('6', Pix::Six);
+        m.insert('7', Pix::Seven);
+        m.insert('8', Pix::Eight);
+        m.insert('9', Pix::Nine);
         m
     };
 }
