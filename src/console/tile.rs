@@ -18,6 +18,14 @@ impl Tile {
         }
     }
 
+    pub fn make(fg: colors::Rgb, bg: colors::Rgb, pix: pixset::Pix) -> Self {
+        Tile {
+            fg: fg,
+            bg: bg,
+            pix: pix,
+        }
+    }
+
     pub fn clear(&mut self) {
         // TODO gross
         let t = Tile::new();
