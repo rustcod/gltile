@@ -14,12 +14,11 @@ fn main() {
     let pixset = pixset::Pixset::new(100, 16);
     let mut renderer = gltile::Renderer::new(&display, pixset);
 
-    let tile = {
-        let mut tile = gltile::Tile::new();
-        tile.fg = *gltile::colors::YELLOW;
-        tile.pix = pixset::Pix::Dood;
-        tile
-    };
+    let tile = gltile::Tile::make(
+        *gltile::colors::YELLOW,
+        *gltile::colors::BLACK,
+        pixset::Pix::Dood,
+    );
 
     renderer.set(gltile::units::ScreenTile2D::new(5, 5), tile);
 

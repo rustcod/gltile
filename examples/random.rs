@@ -18,10 +18,11 @@ impl RandomTile {
 
 impl rand::Rand for RandomTile {
     fn rand<R: Rng>(rng: &mut R) -> Self {
-        let mut tile = gltile::Tile::new();
-        tile.fg = rng.gen::<[f32; 3]>();
-        tile.bg = rng.gen::<[f32; 3]>();
-        tile.pix = pixset::Pix::Dood;
+        let tile = gltile::Tile::make(
+            rng.gen::<[f32; 3]>(),
+            rng.gen::<[f32; 3]>(),
+            pixset::Pix::Dood,
+        );
         RandomTile(tile)
     }
 }
