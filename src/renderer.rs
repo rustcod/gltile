@@ -1,8 +1,8 @@
 use console;
 use glium;
-
 use glium::backend::glutin_backend::GlutinFacade as Display;
 use mvp;
+use pixset::Pixset;
 use shaders;
 use units;
 use utils;
@@ -24,20 +24,21 @@ pub struct Renderer<'a> {
     pub indices: glium::IndexBuffer<u16>,
     pub texture: glium::texture::Texture2d,
     pub vertex_buffer: console::VertexBuffer,
+    pub pixset: Pixset,
 }
 
 impl<'a> Renderer<'a> {
-    pub fn new(display: &'a Display, tile_size: i32, texture_path: &str) -> Self {
+    pub fn new(display: &'a Display, pixset: Pixset) -> Self {
         let screen_size = get_screen_size(display);
         let size = units::Size2D::new(
-            (screen_size.width / tile_size),
-            (screen_size.height / tile_size),
+            (screen_size.width / pixset.tile_size),
+            (screen_size.height / pixset.tile_size),
         );
 
         let program = program(display);
         let indices = indices(display, size);
-        let texture = texture(display, texture_path);
-        let vertex_buffer = console::VertexBuffer::new(size);
+        let texture = texture(display, &pixset.tileset);
+        let vertex_buffer = console::VertexBuffer::new(size, &pixset);
 
         Renderer {
             size: size,
@@ -47,6 +48,7 @@ impl<'a> Renderer<'a> {
             indices: indices,
             texture: texture,
             vertex_buffer: vertex_buffer,
+            pixset: pixset,
         }
     }
 
@@ -96,7 +98,20 @@ impl<'a> Renderer<'a> {
     }
 
     pub fn set(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile) {
-        self.vertex_buffer.set(screen_loc, tile);
+        let coords = self.pixset.get(&tile.pix);
+        self.vertex_buffer.set(screen_loc, tile, coords);
+    }
+
+    pub fn blit_console(&mut self, screen_loc: units::ScreenTile2D, console: &console::Console) {
+        // TODO iter ?
+        for y in 0..console.get_height() {
+            for x in 0..console.get_width() {
+                let loc = screen_loc + units::ScreenTile2D::new(x as i32, y as i32);
+                let tile = console.get_tile(x, y);
+                let coords = self.pixset.get(&tile.pix);
+                self.vertex_buffer.set(loc, tile, coords)
+            }
+        }
     }
 }
 
@@ -122,11 +137,10 @@ fn indices(display: &Display, size: units::Size2D) -> glium::IndexBuffer<u16> {
             .unwrap()
 }
 
-fn texture(display: &Display, path: &str) -> glium::texture::Texture2d {
+fn texture(display: &Display, tileset: &[u8]) -> glium::texture::Texture2d {
     use glium::{backend, texture};
 
-    let png = utils::read_bytes(path).expect(&format!("Texture not found: {}", path)[..]);
-    let image = utils::read_png_to_image(&png[..]);
+    let image = utils::read_png_to_image(tileset);
     let image_dimensions = image.dimensions();
     let texture = texture::RawImage2d::from_raw_rgba_reversed(image.into_raw(), image_dimensions);
     texture::Texture2d::new(display as &backend::Facade, texture).unwrap()

@@ -10,9 +10,9 @@ pub struct VertexData {
 
 // TODO remove Size
 impl VertexData {
-    pub fn new(size: units::Size2D) -> Self {
+    pub fn new(size: units::Size2D, pixset: &pixset::Pixset) -> Self {
         let length = (size.width * size.height) as usize;
-        let (lt, rt, rb, lb) = pixset::PIXSET.get(&pixset::Pix::Empty);
+        let (lt, rt, rb, lb) = pixset.get(&pixset::Pix::Empty);
         let mut data: Vec<vertex::Vertex> = Vec::with_capacity(length * 4);
         let inv_y = size.height % size.width - 1;
 
@@ -34,9 +34,14 @@ impl VertexData {
         &self.data[..]
     }
 
-    pub fn set(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile) {
+    pub fn set(
+        &mut self,
+        screen_loc: units::ScreenTile2D,
+        tile: console::Tile,
+        coords: ([f32; 2], [f32; 2], [f32; 2], [f32; 2]),
+    ) {
         let offset = ((self.size.width * screen_loc.y + screen_loc.x) * 4) as usize;
-        let (lt, rt, rb, lb) = pixset::PIXSET.get(&tile.pix);
+        let (lt, rt, rb, lb) = coords;
 
         self.data[offset].tileset_coords = lt;
         self.data[offset].foreground_color = tile.fg;
