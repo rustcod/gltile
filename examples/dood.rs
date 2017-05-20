@@ -1,6 +1,7 @@
 extern crate glium;
 extern crate gltile;
 extern crate looper;
+extern crate pixset;
 
 use glium::DisplayBuild;
 
@@ -15,7 +16,7 @@ fn main() {
     let tile = {
         let mut tile = gltile::Tile::new();
         tile.fg = *gltile::colors::YELLOW;
-        tile.pix = gltile::Pix::Dood;
+        tile.pix = pixset::Pix::Dood;
         tile
     };
 

@@ -1,6 +1,7 @@
 extern crate glium;
 extern crate gltile;
 extern crate looper;
+extern crate pixset;
 extern crate rand;
 
 use glium::DisplayBuild;
@@ -20,7 +21,7 @@ impl rand::Rand for RandomTile {
         let mut tile = gltile::Tile::new();
         tile.fg = rng.gen::<[f32; 3]>();
         tile.bg = rng.gen::<[f32; 3]>();
-        tile.pix = gltile::Pix::Dood;
+        tile.pix = pixset::Pix::Dood;
         RandomTile(tile)
     }
 }
