@@ -123,7 +123,11 @@ fn indices(display: &Display, size: units::Size2D) -> glium::IndexBuffer<u16> {
 }
 
 fn texture(display: &Display, path: &str) -> glium::texture::Texture2d {
+    use glium::{backend, texture};
+
     let png = utils::read_bytes(path).expect(&format!("Texture not found: {}", path)[..]);
-    let texture = utils::read_png_to_texture(&png[..]);
-    glium::texture::Texture2d::new(display as &glium::backend::Facade, texture).unwrap()
+    let image = utils::read_png_to_image(&png[..]);
+    let image_dimensions = image.dimensions();
+    let texture = texture::RawImage2d::from_raw_rgba_reversed(image.into_raw(), image_dimensions);
+    texture::Texture2d::new(display as &backend::Facade, texture).unwrap()
 }

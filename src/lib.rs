@@ -29,7 +29,7 @@ pub use utils::mat4_id;
 pub use utils::ortho_projection;
 pub use utils::read_bytes;
 pub use utils::read_file;
-pub use utils::read_png_to_texture;
+pub use utils::read_png_to_image;
 
 #[cfg(test)]
 mod tests {

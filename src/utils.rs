@@ -1,4 +1,4 @@
-use glium;
+use image;
 use mvp;
 use std;
 use units;
@@ -55,14 +55,10 @@ pub fn read_bytes(path: &str) -> std::io::Result<Vec<u8>> {
 }
 
 
-pub fn read_png_to_texture(bytes: &[u8]) -> glium::texture::RawImage2d<u8> {
-    use image;
-
-    let image = image::load(std::io::Cursor::new(bytes), image::PNG)
+pub fn read_png_to_image(bytes: &[u8]) -> image::ImageBuffer<image::Rgba<u8>, Vec<u8>> {
+    image::load(std::io::Cursor::new(bytes), image::PNG)
         .unwrap()
-        .to_rgba();
-    let image_dimensions = image.dimensions();
-    glium::texture::RawImage2d::from_raw_rgba_reversed(image.into_raw(), image_dimensions)
+        .to_rgba()
 }
 
 pub fn indices(length: usize) -> Vec<u16> {
