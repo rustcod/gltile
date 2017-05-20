@@ -38,7 +38,7 @@ impl VertexData {
         &mut self,
         screen_loc: units::ScreenTile2D,
         tile: console::Tile,
-        coords: ([f32; 2], [f32; 2], [f32; 2], [f32; 2]),
+        coords: pixset::TexCoords,
     ) {
         let offset = ((self.size.width * screen_loc.y + screen_loc.x) * 4) as usize;
         let (lt, rt, rb, lb) = coords;

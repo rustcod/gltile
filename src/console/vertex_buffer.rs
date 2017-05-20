@@ -20,7 +20,7 @@ impl VertexBuffer {
         &mut self,
         screen_loc: units::ScreenTile2D,
         tile: console::Tile,
-        coords: ([f32; 2], [f32; 2], [f32; 2], [f32; 2]),
+        coords: pixset::TexCoords,
     ) {
         self.vertex_data.set(screen_loc, tile, coords);
     }
