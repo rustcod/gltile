@@ -12,16 +12,16 @@ pub struct VertexData {
 impl VertexData {
     pub fn new(size: units::Size2D, pixset: &pixset::Pixset) -> Self {
         let length = (size.width * size.height) as usize;
-        let (lt, rt, rb, lb) = pixset.get(&pixset::Pix::Empty);
+        let (top, right, bottom, left) = pixset.get(&pixset::Pix::Empty);
         let mut data: Vec<vertex::Vertex> = Vec::with_capacity(length * 4);
         let inv_y = size.height % size.width - 1;
 
         for i in 0..length {
             let (x, y) = (i as i32 % size.width, inv_y - i as i32 / size.width as i32);
-            data.push(vertex::Vertex::new([-0.5, 0.5], lt, [x, y + 1]));
-            data.push(vertex::Vertex::new([0.5, 0.5], rt, [x + 1, y + 1]));
-            data.push(vertex::Vertex::new([0.5, -0.5], rb, [x + 1, y]));
-            data.push(vertex::Vertex::new([-0.5, -0.5], lb, [x, y]));
+            data.push(vertex::Vertex::new([-0.5, 0.5], [left, top], [x, y + 1]));
+            data.push(vertex::Vertex::new([0.5, 0.5], [right, top], [x + 1, y + 1]),);
+            data.push(vertex::Vertex::new([0.5, -0.5], [right, bottom], [x + 1, y]),);
+            data.push(vertex::Vertex::new([-0.5, -0.5], [left, bottom], [x, y]));
         }
 
         VertexData {
@@ -41,21 +41,21 @@ impl VertexData {
         coords: pixset::TexCoords,
     ) {
         let offset = ((self.size.width * screen_loc.y + screen_loc.x) * 4) as usize;
-        let (lt, rt, rb, lb) = coords;
+        let (top, right, bottom, left) = coords;
 
-        self.data[offset].tileset_coords = lt;
+        self.data[offset].tileset_coords = [left, top];
         self.data[offset].foreground_color = tile.fg;
         self.data[offset].background_color = tile.bg;
 
-        self.data[offset + 1].tileset_coords = rt;
+        self.data[offset + 1].tileset_coords = [right, top];
         self.data[offset + 1].foreground_color = tile.fg;
         self.data[offset + 1].background_color = tile.bg;
 
-        self.data[offset + 2].tileset_coords = rb;
+        self.data[offset + 2].tileset_coords = [right, bottom];
         self.data[offset + 2].foreground_color = tile.fg;
         self.data[offset + 2].background_color = tile.bg;
 
-        self.data[offset + 3].tileset_coords = lb;
+        self.data[offset + 3].tileset_coords = [left, bottom];
         self.data[offset + 3].foreground_color = tile.fg;
         self.data[offset + 3].background_color = tile.bg;
     }
