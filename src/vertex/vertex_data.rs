@@ -1,5 +1,4 @@
 use console;
-use pixset;
 use pixset::PixLike;
 use units;
 use vertex;
@@ -11,9 +10,9 @@ pub struct VertexData {
 
 // TODO remove Size
 impl VertexData {
-    pub fn new(size: units::Size2D) -> Self {
+    pub fn new<P: PixLike>(size: units::Size2D, empty: P) -> Self {
         let length = (size.width * size.height) as usize;
-        let (top, right, bottom, left) = pixset::Pix::Empty.get();
+        let (top, right, bottom, left) = empty.get();
         let mut data: Vec<vertex::Vertex> = Vec::with_capacity(length * 4);
         let inv_y = size.height % size.width - 1;
 
@@ -35,10 +34,10 @@ impl VertexData {
         &self.data[..]
     }
 
-    pub fn set(
+    pub fn set<P: PixLike>(
         &mut self,
         screen_loc: units::ScreenTile2D,
-        tile: console::Tile,
+        tile: console::Tile<P>,
         coords: (f32, f32, f32, f32),
     ) {
         let offset = ((self.size.width * screen_loc.y + screen_loc.x) * 4) as usize;

@@ -1,15 +1,20 @@
 use super::{Pen, Tile, Tiles, WithParams};
 use colors;
 use pixset;
+use pixset::PixLike;
+use std::default::Default;
 use units;
 
-pub struct Console {
+pub struct Console<P: PixLike> {
     size: units::Size2D,
-    tiles: Tiles,
+    tiles: Tiles<P>,
     pen: Pen,
 }
 
-impl Console {
+impl<P> Console<P>
+where
+    P: pixset::PixLike,
+{
     pub fn new(size: units::Size2D) -> Self {
         Console {
             size: size,
@@ -26,8 +31,7 @@ impl Console {
         self.size.height
     }
 
-    pub fn get_tile(&self, x: i32, y: i32) -> Tile {
-        // TODO make a getter or impl Index, in either case remove pub on tiles
+    pub fn get_tile(&self, x: i32, y: i32) -> Tile<P> {
         self.tiles.tiles[(self.size.width * y + x) as usize]
     }
 
@@ -47,7 +51,7 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_loc(&mut self, screen_loc: units::ScreenTile2D) -> WithParams {
+    pub fn with_loc(&mut self, screen_loc: units::ScreenTile2D) -> WithParams<P> {
         let fg = self.pen.fg;
         let bg = self.pen.bg;
 
@@ -63,7 +67,7 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_offset(&mut self, offset: units::ScreenTile2D) -> WithParams {
+    pub fn with_offset(&mut self, offset: units::ScreenTile2D) -> WithParams<P> {
         let fg = self.pen.fg;
         let bg = self.pen.bg;
         let screen_loc = self.pen.cursor_loc + offset;
@@ -80,7 +84,7 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_fg(&mut self, fg: colors::Rgb) -> WithParams {
+    pub fn with_fg(&mut self, fg: colors::Rgb) -> WithParams<P> {
         let cursor_loc = self.pen.cursor_loc;
         let bg = self.pen.bg;
 
@@ -96,7 +100,7 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn with_bg(&mut self, bg: colors::Rgb) -> WithParams {
+    pub fn with_bg(&mut self, bg: colors::Rgb) -> WithParams<P> {
         let cursor_loc = self.pen.cursor_loc;
         let fg = self.pen.fg;
 
@@ -112,12 +116,12 @@ impl Console {
     }
 
     #[allow(dead_code)]
-    pub fn set_pix<'a>(&mut self, pix: pixset::Pix) {
+    pub fn set_pix<'a>(&mut self, pix: P) {
         let pen = self.pen.clone();
         self.set_with_pen(pix, pen);
     }
 
-    pub fn set_with_pen<'a>(&mut self, pix: pixset::Pix, pen: Pen) {
+    pub fn set_with_pen<'a>(&mut self, pix: P, pen: Pen) {
         self.tiles.set(pen.cursor_loc, pix, pen.fg, pen.bg);
     }
 
@@ -127,7 +131,7 @@ impl Console {
         for d_x in 0..x {
             for d_y in 0..y {
                 let offset = units::ScreenTile2D::new(d_x as i32, d_y as i32);
-                self.with_offset(offset).set_pix(pixset::Pix::Empty);
+                self.with_offset(offset).set_pix(Default::default());
             }
         }
     }

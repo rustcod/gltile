@@ -2,7 +2,6 @@ use console;
 use glium;
 use glium::backend::glutin_backend::GlutinFacade as Display;
 use mvp;
-use pixset;
 use pixset::PixLike;
 use shaders;
 use units;
@@ -28,17 +27,17 @@ pub struct Renderer<'a> {
 }
 
 impl<'a> Renderer<'a> {
-    pub fn new(display: &'a Display, tileset: &[u8]) -> Self {
+    pub fn new<P: PixLike>(display: &'a Display, tileset: &[u8], empty: P) -> Self {
         let screen_size = get_screen_size(display);
         let size = units::Size2D::new(
-            (screen_size.width / pixset::Pix::Empty.tile_size()),
-            (screen_size.height / pixset::Pix::Empty.tile_size()),
+            (screen_size.width / empty.tile_size()),
+            (screen_size.height / empty.tile_size()),
         );
 
         let program = program(display);
         let indices = indices(display, size);
         let texture = texture(display, tileset);
-        let vertex_buffer = console::VertexBuffer::new(size);
+        let vertex_buffer = console::VertexBuffer::new(size, empty);
 
         Renderer {
             size: size,
@@ -96,12 +95,16 @@ impl<'a> Renderer<'a> {
         target.finish().unwrap();
     }
 
-    pub fn set(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile) {
+    pub fn set<P: PixLike>(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile<P>) {
         let coords = tile.pix.get();
         self.vertex_buffer.set(screen_loc, tile, coords);
     }
 
-    pub fn blit_console(&mut self, screen_loc: units::ScreenTile2D, console: &console::Console) {
+    pub fn blit_console<P: PixLike>(
+        &mut self,
+        screen_loc: units::ScreenTile2D,
+        console: &console::Console<P>,
+    ) {
         // TODO iter ?
         for y in 0..console.get_height() {
             for x in 0..console.get_width() {

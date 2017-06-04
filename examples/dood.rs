@@ -11,7 +11,7 @@ fn main() {
         .build_glium()
         .unwrap();
 
-    let mut renderer = gltile::Renderer::new(&display, pixset::TILESET);
+    let mut renderer = gltile::Renderer::new(&display, pixset::TILESET, pixset::Pix::Empty);
 
     let tile = gltile::Tile::make(
         *gltile::colors::YELLOW,

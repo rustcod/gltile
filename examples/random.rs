@@ -5,19 +5,23 @@ extern crate pixset;
 extern crate rand;
 
 use glium::DisplayBuild;
+use pixset::PixLike;
 use rand::Rng;
 use rand::distributions::{IndependentSample, Range};
+use std::ops::Deref;
 
-pub struct RandomTile(gltile::Tile);
+pub struct RandomTile<P: PixLike>(gltile::Tile<P>);
 
-impl RandomTile {
-    pub fn to_tile(self) -> gltile::Tile {
-        self.0
+impl<P: PixLike> Deref for RandomTile<P> {
+    type Target = gltile::Tile<P>;
+
+    fn deref(&self) -> &gltile::Tile<P> {
+        &self.0
     }
 }
 
-impl rand::Rand for RandomTile {
-    fn rand<R: Rng>(rng: &mut R) -> Self {
+impl rand::Rand for RandomTile<pixset::Pix> {
+    fn rand<R: Rng>(rng: &mut R) -> RandomTile<pixset::Pix> {
         let tile = gltile::Tile::make(
             rng.gen::<[f32; 3]>(),
             rng.gen::<[f32; 3]>(),
@@ -33,7 +37,7 @@ fn main() {
         .build_glium()
         .unwrap();
 
-    let mut renderer = gltile::Renderer::new(&display, pixset::TILESET);
+    let mut renderer = gltile::Renderer::new(&display, pixset::TILESET, pixset::Pix::Empty);
 
     let mut rng = rand::thread_rng();
     let x = Range::new(0, 96);
@@ -41,7 +45,7 @@ fn main() {
 
     looper::Looper::new(60.0).run(
         |_| {
-            let tile = rng.gen::<RandomTile>().to_tile();
+            let tile = *rng.gen::<RandomTile<pixset::Pix>>();
             let loc =
                 gltile::units::ScreenTile2D::new(x.ind_sample(&mut rng), y.ind_sample(&mut rng));
             renderer.set(loc, tile);
