@@ -13,7 +13,7 @@ fn main() {
 
     let mut renderer = gltile::Renderer::new(&display, pixset::TILESET, pixset::Pix::Empty);
 
-    for (pix, offset) in pixset::Str::from("Yo, Dawg;").iter() {
+    for (pix, offset) in pixset::PixStr::from("Yo, Dawg;").iter() {
         let tile = gltile::Tile::make(*gltile::colors::YELLOW, *gltile::colors::BLACK, pix);
         renderer.set(gltile::units::ScreenTile2D::new(5 + offset.0, 10), tile);
     }
