@@ -2,7 +2,8 @@ use console;
 use glium;
 use glium::backend::glutin_backend::GlutinFacade as Display;
 use mvp;
-use pixset::Pixset;
+use pixset;
+use pixset::PixLike;
 use shaders;
 use units;
 use utils;
@@ -24,21 +25,20 @@ pub struct Renderer<'a> {
     pub indices: glium::IndexBuffer<u16>,
     pub texture: glium::texture::Texture2d,
     pub vertex_buffer: console::VertexBuffer,
-    pub pixset: Pixset,
 }
 
 impl<'a> Renderer<'a> {
-    pub fn new(display: &'a Display, pixset: Pixset) -> Self {
+    pub fn new(display: &'a Display, tileset: &[u8]) -> Self {
         let screen_size = get_screen_size(display);
         let size = units::Size2D::new(
-            (screen_size.width / pixset.tile_size),
-            (screen_size.height / pixset.tile_size),
+            (screen_size.width / pixset::Pix::Empty.tile_size()),
+            (screen_size.height / pixset::Pix::Empty.tile_size()),
         );
 
         let program = program(display);
         let indices = indices(display, size);
-        let texture = texture(display, &pixset.tileset);
-        let vertex_buffer = console::VertexBuffer::new(size, &pixset);
+        let texture = texture(display, tileset);
+        let vertex_buffer = console::VertexBuffer::new(size);
 
         Renderer {
             size: size,
@@ -48,7 +48,6 @@ impl<'a> Renderer<'a> {
             indices: indices,
             texture: texture,
             vertex_buffer: vertex_buffer,
-            pixset: pixset,
         }
     }
 
@@ -98,7 +97,7 @@ impl<'a> Renderer<'a> {
     }
 
     pub fn set(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile) {
-        let coords = self.pixset.get(&tile.pix);
+        let coords = tile.pix.get();
         self.vertex_buffer.set(screen_loc, tile, coords);
     }
 
@@ -108,7 +107,7 @@ impl<'a> Renderer<'a> {
             for x in 0..console.get_width() {
                 let loc = screen_loc + units::ScreenTile2D::new(x as i32, y as i32);
                 let tile = console.get_tile(x, y);
-                let coords = self.pixset.get(&tile.pix);
+                let coords = tile.pix.get();
                 self.vertex_buffer.set(loc, tile, coords)
             }
         }
