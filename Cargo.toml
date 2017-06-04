@@ -12,5 +12,6 @@ palette = "0.2.1"
 pixset = { git = "https://github.com/dobrite/pixset-rs" }
 
 [dev-dependencies]
+pixset-derive = { git = "https://github.com/dobrite/pixset-rs" }
 looper = { git = "https://github.com/dobrite/looper-rs" }
 rand = "0.3.15"
