@@ -19,8 +19,16 @@ impl VertexData {
         for i in 0..length {
             let (x, y) = (i as i32 % size.width, inv_y - i as i32 / size.width as i32);
             data.push(vertex::Vertex::new([-0.5, 0.5], [left, top], [x, y + 1]));
-            data.push(vertex::Vertex::new([0.5, 0.5], [right, top], [x + 1, y + 1]),);
-            data.push(vertex::Vertex::new([0.5, -0.5], [right, bottom], [x + 1, y]),);
+            data.push(vertex::Vertex::new(
+                [0.5, 0.5],
+                [right, top],
+                [x + 1, y + 1],
+            ));
+            data.push(vertex::Vertex::new(
+                [0.5, -0.5],
+                [right, bottom],
+                [x + 1, y],
+            ));
             data.push(vertex::Vertex::new([-0.5, -0.5], [left, bottom], [x, y]));
         }
 

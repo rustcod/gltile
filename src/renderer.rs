@@ -123,8 +123,7 @@ fn program(display: &Display) -> glium::Program {
         &shaders::VERTEX,
         &shaders::FRAGMENT,
         None,
-    )
-            .unwrap()
+    ).unwrap()
 }
 
 fn indices(display: &Display, size: units::Size2D) -> glium::IndexBuffer<u16> {
@@ -135,8 +134,7 @@ fn indices(display: &Display, size: units::Size2D) -> glium::IndexBuffer<u16> {
         display as &glium::backend::Facade,
         PrimitiveType::TrianglesList,
         &indices,
-    )
-            .unwrap()
+    ).unwrap()
 }
 
 fn texture(display: &Display, tileset: &[u8]) -> glium::texture::Texture2d {

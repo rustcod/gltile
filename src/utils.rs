@@ -64,13 +64,11 @@ pub fn read_png_to_image(bytes: &[u8]) -> image::ImageBuffer<image::Rgba<u8>, Ve
 pub fn indices(length: usize) -> Vec<u16> {
     (0..length)
         .into_iter()
-        .flat_map(
-            |i| {
-                vec![0, 1, 2, 0, 2, 3]
-                    .into_iter()
-                    .map(|j| (j + i * 4) as u16)
-                    .collect::<Vec<u16>>()
-            },
-        )
+        .flat_map(|i| {
+            vec![0, 1, 2, 0, 2, 3]
+                .into_iter()
+                .map(|j| (j + i * 4) as u16)
+                .collect::<Vec<u16>>()
+        })
         .collect()
 }
