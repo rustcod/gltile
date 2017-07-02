@@ -95,9 +95,9 @@ impl<'a> Renderer<'a> {
         target.finish().unwrap();
     }
 
-    pub fn set<P: PixLike>(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile<P>) {
+    pub fn set<P: PixLike, L: Into<[i32; 2]>>(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile<P>) {
         let coords = tile.pix.get();
-        self.vertex_buffer.set(screen_loc, tile, coords);
+        self.vertex_buffer.set(units::ScreenTile2D::from(screen_loc.into()), tile, coords);
     }
 
     pub fn blit_console<P: PixLike>(
