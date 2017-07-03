@@ -30,6 +30,7 @@ fn render_tile(renderer: &mut gltile::Renderer, loc: ScreenTile2D, pix: Pix) {
 
     renderer.set(loc, tile);
 }
+
 fn main() {
     let display = glium::glutin::WindowBuilder::new()
         .with_dimensions(1536, 1024)
@@ -45,7 +46,7 @@ fn main() {
 
     for (pix, offset) in PixStr::from("abcdcba").iter() {
         let tile = gltile::Tile::make(*gltile::colors::YELLOW, *gltile::colors::BLACK, pix);
-        renderer.set(ScreenTile2D::new(5 + offset.0, 10), tile);
+        renderer.set([5 + offset.0, 10], tile);
     }
 
     let render = |_| {
