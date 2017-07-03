@@ -1,7 +1,5 @@
 Some sort of OpenGL-based Tile renderer
 
-Nothing to see here...
-
 ## License
 
 Licensed under either of
