@@ -70,7 +70,10 @@ where
     pub fn with_offset(&mut self, offset: units::ScreenTile2D) -> WithParams<P> {
         let fg = self.pen.fg;
         let bg = self.pen.bg;
-        let screen_loc = self.pen.cursor_loc + offset;
+        let screen_loc = units::ScreenTile2D::new(
+            self.pen.cursor_loc.x + offset.x,
+            self.pen.cursor_loc.y + offset.y,
+        );
 
         // TODO new
         WithParams {

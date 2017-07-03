@@ -95,9 +95,10 @@ impl<'a> Renderer<'a> {
         target.finish().unwrap();
     }
 
-    pub fn set<P: PixLike, L: Into<[i32; 2]>>(&mut self, screen_loc: units::ScreenTile2D, tile: console::Tile<P>) {
+    pub fn set<P: PixLike, L: Into<[i32; 2]>>(&mut self, screen_loc: L, tile: console::Tile<P>) {
         let coords = tile.pix.get();
-        self.vertex_buffer.set(units::ScreenTile2D::from(screen_loc.into()), tile, coords);
+        self.vertex_buffer
+            .set(units::ScreenTile2D::from(screen_loc.into()), tile, coords);
     }
 
     pub fn blit_console<P: PixLike>(
@@ -108,7 +109,8 @@ impl<'a> Renderer<'a> {
         // TODO iter ?
         for y in 0..console.get_height() {
             for x in 0..console.get_width() {
-                let loc = screen_loc + units::ScreenTile2D::new(x as i32, y as i32);
+                let loc =
+                    units::ScreenTile2D::new(screen_loc.x + x as i32, screen_loc.y + y as i32);
                 let tile = console.get_tile(x, y);
                 let coords = tile.pix.get();
                 self.vertex_buffer.set(loc, tile, coords)

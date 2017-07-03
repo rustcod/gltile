@@ -20,7 +20,10 @@ impl Pen {
     #[allow(dead_code)]
     pub fn offset(self, offset: units::ScreenTile2D) -> Self {
         Pen {
-            cursor_loc: self.cursor_loc + offset,
+            cursor_loc: units::ScreenTile2D::new(
+                self.cursor_loc.x + offset.x,
+                self.cursor_loc.y + offset.y,
+            ),
             ..self
         }
     }
