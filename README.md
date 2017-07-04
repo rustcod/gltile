@@ -1,4 +1,10 @@
+[![](https://travis-ci.org/rustcod/gltile.svg?branch=master)](https://travis-ci.org/rustcod/gltile)
+
 Some sort of OpenGL-based Tile renderer
+
+## [Documentation](https://docs.rs/gltile)
+
+[![](https://docs.rs/gltile/badge.svg)](https://docs.rs/gltile)
 
 ## License
 
