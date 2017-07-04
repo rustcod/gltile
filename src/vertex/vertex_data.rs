@@ -14,10 +14,9 @@ impl VertexData {
         let length = (size.width * size.height) as usize;
         let (top, right, bottom, left) = empty.get();
         let mut data: Vec<vertex::Vertex> = Vec::with_capacity(length * 4);
-        let inv_y = size.height % size.width - 1;
 
         for i in 0..length {
-            let (x, y) = (i as i32 % size.width, inv_y - i as i32 / size.width as i32);
+            let (x, y) = (i as i32 % size.width, size.height - 1 - i as i32 / size.width as i32);
             data.push(vertex::Vertex::new([-0.5, 0.5], [left, top], [x, y + 1]));
             data.push(vertex::Vertex::new(
                 [0.5, 0.5],
