@@ -19,7 +19,6 @@ mod vertex;
 
 pub use console::Console;
 pub use console::Tile;
-pub use console::VertexBuffer;
 pub use mvp::Matrix4;
 pub use mvp::model_view_projection;
 pub use renderer::Renderer;
