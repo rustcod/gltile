@@ -46,7 +46,7 @@ fn main() {
     looper::Looper::new(60.0).run(
         |_| {
             let tile = *rng.gen::<RandomTile<pixset::Pix>>();
-            let loc = [x.ind_sample(&mut rng), y.ind_sample(&mut rng)];
+            let loc = (x.ind_sample(&mut rng), y.ind_sample(&mut rng));
             renderer.set(loc, tile);
             renderer.render();
             looper::Action::Continue

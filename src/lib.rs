@@ -4,7 +4,6 @@ extern crate glium;
 #[macro_use]
 extern crate lazy_static;
 
-extern crate euclid;
 extern crate image;
 extern crate palette;
 extern crate pixset;

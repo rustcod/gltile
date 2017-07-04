@@ -46,7 +46,7 @@ fn main() {
 
     for (pix, offset) in PixStr::from("abcdcba").iter() {
         let tile = gltile::Tile::make(*gltile::colors::YELLOW, *gltile::colors::BLACK, pix);
-        renderer.set([5 + offset.0, 10], tile);
+        renderer.set((5 + offset.0, 10), tile);
     }
 
     let render = |_| {

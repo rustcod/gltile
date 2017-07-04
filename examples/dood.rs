@@ -19,7 +19,7 @@ fn main() {
         pixset::Pix::Dood,
     );
 
-    renderer.set([5, 5], tile);
+    renderer.set((5, 5), tile);
 
     let render = |_| {
         renderer.render();
