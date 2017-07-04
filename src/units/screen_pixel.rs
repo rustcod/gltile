@@ -1,7 +1,6 @@
 /// a 2D pixel located on the screen
 ///
 /// e.g. `ScreenPixel2D::new(0, 0)` is always the upper left pixel of the screen
-
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub struct ScreenPixel2D {
     pub x: i32,

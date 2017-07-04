@@ -1,5 +1,4 @@
 /// a 2D Size consisting of a width and a height.
-
 #[derive(Clone, Copy, Debug, Default, Eq, Hash, PartialEq)]
 pub struct Size2D {
     pub width: i32,

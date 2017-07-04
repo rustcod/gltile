@@ -95,7 +95,11 @@ impl<'a> Renderer<'a> {
         target.finish().unwrap();
     }
 
-    pub fn set<P: PixLike, L: Into<units::ScreenTile2D>>(&mut self, screen_loc: L, tile: console::Tile<P>) {
+    pub fn set<P: PixLike, L: Into<units::ScreenTile2D>>(
+        &mut self,
+        screen_loc: L,
+        tile: console::Tile<P>,
+    ) {
         let coords = tile.pix.get();
         self.vertex_buffer.set(screen_loc.into(), tile, coords);
     }
