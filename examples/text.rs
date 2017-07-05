@@ -7,7 +7,7 @@ use glium::DisplayBuild;
 
 fn main() {
     let display = glium::glutin::WindowBuilder::new()
-        .with_dimensions(1536, 1024)
+        .with_dimensions(512, 512)
         .build_glium()
         .unwrap();
 

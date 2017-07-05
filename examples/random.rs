@@ -32,16 +32,17 @@ impl rand::Rand for RandomTile<pixset::Pix> {
 }
 
 fn main() {
+    let dim = 512i32;
     let display = glium::glutin::WindowBuilder::new()
-        .with_dimensions(1536, 1024)
+        .with_dimensions(dim as u32, dim as u32)
         .build_glium()
         .unwrap();
 
     let mut renderer = gltile::Renderer::new(&display, pixset::TILESET, pixset::Pix::Empty);
 
     let mut rng = rand::thread_rng();
-    let x = Range::new(0, 96);
-    let y = Range::new(0, 64);
+    let x = Range::new(0, dim / pixset::Pix::Empty.tile_size());
+    let y = Range::new(0, dim / pixset::Pix::Empty.tile_size());
 
     looper::Looper::new(60.0).run(
         |_| {
