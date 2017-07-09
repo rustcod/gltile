@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.2] - 2017-07-09
+
 ### Added
 - support for non-square tilesets
 - `non_square` example (16x24 tileset)
@@ -13,3 +15,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 - bumped `pixset`, `looper`, and `pixset_derive` to `0.0.2`
+
+## [0.0.1] - 2017-07-04
+
+### Added
+- initial impl
