@@ -12,9 +12,9 @@ use gltile::units::ScreenTile2D;
 use pixset::PixLike;
 
 pix! {
-    tileset => "assets/custom-tileset.png";
+    tileset => "assets/16x24.png";
     width => "16";
-    height => "16";
+    height => "24";
     total => "4";
     One,
     Two,
@@ -34,7 +34,7 @@ fn render_tile(renderer: &mut gltile::Renderer, loc: ScreenTile2D, pix: Pix) {
 
 fn main() {
     let display = glium::glutin::WindowBuilder::new()
-        .with_dimensions(512, 512)
+        .with_dimensions(512, 768)
         .build_glium()
         .unwrap();
 

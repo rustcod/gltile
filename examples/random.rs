@@ -41,8 +41,9 @@ fn main() {
     let mut renderer = gltile::Renderer::new(&display, pixset::TILESET, pixset::Pix::Empty);
 
     let mut rng = rand::thread_rng();
-    let x = Range::new(0, dim / pixset::Pix::Empty.tile_size());
-    let y = Range::new(0, dim / pixset::Pix::Empty.tile_size());
+    let (width, height) = pixset::Pix::Empty.tile_size();
+    let x = Range::new(0, dim / width as i32);
+    let y = Range::new(0, dim / height as i32);
 
     looper::Looper::new(60.0).run(
         |_| {

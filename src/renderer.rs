@@ -29,12 +29,13 @@ pub struct Renderer<'a> {
 impl<'a> Renderer<'a> {
     pub fn new<P: PixLike>(display: &'a Display, tileset: &[u8], empty: P) -> Self {
         let screen_size = get_screen_size(display);
+        let (width, height) = empty.tile_size();
         let size = units::Size2D::new(
-            (screen_size.width / empty.tile_size()),
-            (screen_size.height / empty.tile_size()),
+            (screen_size.width / width as i32),
+            (screen_size.height / height as i32),
         );
 
-        let program = program(display);
+        let program = program(display, empty.tile_size());
         let indices = indices(display, size);
         let texture = texture(display, tileset);
         let vertex_buffer = console::VertexBuffer::new(size, empty);
@@ -121,10 +122,12 @@ impl<'a> Renderer<'a> {
     }
 }
 
-fn program(display: &Display) -> glium::Program {
+fn program(display: &Display, (width, height): (u32, u32)) -> glium::Program {
     glium::Program::from_source(
         display as &glium::backend::Facade,
-        &shaders::VERTEX,
+        &shaders::VERTEX
+            .replace("{width}", &(width as f32).to_string())
+            .replace("{height}", &(height as f32).to_string()),
         &shaders::FRAGMENT,
         None,
     ).unwrap()

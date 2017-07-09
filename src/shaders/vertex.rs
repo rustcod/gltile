@@ -16,8 +16,7 @@ pub static VERTEX: &'static str = r##"
   uniform mat4 mvp;
 
   void main() {
-      // 16.0 fixed "scale"
-      gl_Position = mvp * vec4(position + 16.0 * screen_loc, 0.0, 1.0);
+      gl_Position = mvp * vec4(position[0] + {width} * screen_loc[0], position[1] + {height} * screen_loc[1], 0.0, 1.0);
       v_tileset_coords = tileset_coords;
       v_foreground_color = foreground_color;
       v_background_color = background_color;
