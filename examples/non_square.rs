@@ -8,7 +8,6 @@ extern crate gltile;
 extern crate looper;
 
 use glium::DisplayBuild;
-use gltile::units::ScreenTile2D;
 use pixset::PixLike;
 
 pix! {
@@ -26,7 +25,7 @@ pix! {
     'd' => Empty;
 }
 
-fn render_tile(renderer: &mut gltile::Renderer, loc: ScreenTile2D, pix: Pix) {
+fn render_tile(renderer: &mut gltile::Renderer, loc: (i32, i32), pix: Pix) {
     let tile = gltile::Tile::make(*gltile::colors::YELLOW, *gltile::colors::BLACK, pix);
 
     renderer.set(loc, tile);
@@ -40,10 +39,10 @@ fn main() {
 
     let mut renderer = gltile::Renderer::new(&display, TILESET, Pix::Empty);
 
-    render_tile(&mut renderer, ScreenTile2D::new(5, 5), Pix::One);
-    render_tile(&mut renderer, ScreenTile2D::new(6, 6), Pix::Two);
-    render_tile(&mut renderer, ScreenTile2D::new(7, 7), Pix::Three);
-    render_tile(&mut renderer, ScreenTile2D::new(8, 8), Pix::Empty);
+    render_tile(&mut renderer, (5, 5), Pix::One);
+    render_tile(&mut renderer, (6, 6), Pix::Two);
+    render_tile(&mut renderer, (7, 7), Pix::Three);
+    render_tile(&mut renderer, (8, 8), Pix::Empty);
 
     for (pix, offset) in PixStr::from("abcdcba").iter() {
         let tile = gltile::Tile::make(*gltile::colors::YELLOW, *gltile::colors::BLACK, pix);

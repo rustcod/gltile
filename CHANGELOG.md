@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Removed
+- *breaking* removed `units`, `mvp`, and `utils` from public interface
+
 ## [0.0.2] - 2017-07-09
 
 ### Added
