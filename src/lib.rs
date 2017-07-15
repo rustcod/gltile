@@ -13,21 +13,13 @@ mod console;
 mod mvp;
 mod renderer;
 mod shaders;
-pub mod units; // TODO
+mod units;
 mod utils;
 mod vertex;
 
 pub use console::Console;
 pub use console::Tile;
-pub use mvp::Matrix4;
-pub use mvp::model_view_projection;
 pub use renderer::Renderer;
-pub use utils::indices;
-pub use utils::mat4_id;
-pub use utils::ortho_projection;
-pub use utils::read_bytes;
-pub use utils::read_file;
-pub use utils::read_png_to_image;
 
 #[cfg(test)]
 mod tests {
