@@ -7,7 +7,6 @@ extern crate glium;
 extern crate gltile;
 extern crate looper;
 
-use glium::DisplayBuild;
 use pixset::PixLike;
 
 pix! {
@@ -32,11 +31,10 @@ fn render_tile(renderer: &mut gltile::Renderer, loc: (i32, i32), pix: Pix) {
 }
 
 fn main() {
-    let display = glium::glutin::WindowBuilder::new()
-        .with_dimensions(512, 768)
-        .build_glium()
-        .unwrap();
-
+    let mut events_loop = glium::glutin::EventsLoop::new();
+    let window = glium::glutin::WindowBuilder::new().with_dimensions(512, 768);
+    let context = glium::glutin::ContextBuilder::new();
+    let display = glium::Display::new(window, context, &events_loop).unwrap();
     let mut renderer = gltile::Renderer::new(&display, TILESET, Pix::Empty);
 
     render_tile(&mut renderer, (5, 5), Pix::One);
@@ -55,13 +53,18 @@ fn main() {
     };
 
     let update = |_| {
-        for ev in display.poll_events() {
-            match ev {
-                glium::glutin::Event::Closed => return looper::Action::Stop,
-                _ => (),
+        let mut action = looper::Action::Continue;
+        events_loop.poll_events(|event| match event {
+            glium::glutin::Event::WindowEvent { event, .. } => {
+                match event {
+                    glium::glutin::WindowEvent::Closed => action = looper::Action::Stop,
+                    _ => (),
+                }
             }
-        }
-        looper::Action::Continue
+            _ => (),
+        });
+
+        action
     };
 
     looper::Looper::new(60.0).run(render, update);

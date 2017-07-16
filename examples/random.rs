@@ -4,7 +4,6 @@ extern crate looper;
 extern crate pixset;
 extern crate rand;
 
-use glium::DisplayBuild;
 use pixset::PixLike;
 use rand::Rng;
 use rand::distributions::{IndependentSample, Range};
@@ -33,34 +32,40 @@ impl rand::Rand for RandomTile<pixset::Pix> {
 
 fn main() {
     let dim = 512i32;
-    let display = glium::glutin::WindowBuilder::new()
-        .with_dimensions(dim as u32, dim as u32)
-        .build_glium()
-        .unwrap();
-
+    let mut events_loop = glium::glutin::EventsLoop::new();
+    let window = glium::glutin::WindowBuilder::new().with_dimensions(dim as u32, dim as u32);
+    let context = glium::glutin::ContextBuilder::new();
+    let display = glium::Display::new(window, context, &events_loop).unwrap();
     let mut renderer = gltile::Renderer::new(&display, pixset::TILESET, pixset::Pix::Empty);
+
 
     let mut rng = rand::thread_rng();
     let (width, height) = pixset::Pix::Empty.tile_size();
     let x = Range::new(0, dim / width as i32);
     let y = Range::new(0, dim / height as i32);
 
-    looper::Looper::new(60.0).run(
-        |_| {
-            let tile = *rng.gen::<RandomTile<pixset::Pix>>();
-            let loc = (x.ind_sample(&mut rng), y.ind_sample(&mut rng));
-            renderer.set(loc, tile);
-            renderer.render();
-            looper::Action::Continue
-        },
-        |_| {
-            for ev in display.poll_events() {
-                match ev {
-                    glium::glutin::Event::Closed => return looper::Action::Stop,
+    let render = |_| {
+        let tile = *rng.gen::<RandomTile<pixset::Pix>>();
+        let loc = (x.ind_sample(&mut rng), y.ind_sample(&mut rng));
+        renderer.set(loc, tile);
+        renderer.render();
+        looper::Action::Continue
+    };
+
+    let update = |_| {
+        let mut action = looper::Action::Continue;
+        events_loop.poll_events(|event| match event {
+            glium::glutin::Event::WindowEvent { event, .. } => {
+                match event {
+                    glium::glutin::WindowEvent::Closed => action = looper::Action::Stop,
                     _ => (),
                 }
             }
-            looper::Action::Continue
-        },
-    );
+            _ => (),
+        });
+
+        action
+    };
+
+    looper::Looper::new(60.0).run(render, update);
 }

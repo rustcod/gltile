@@ -1,14 +1,15 @@
 use console;
 use glium;
-use glium::backend::glutin_backend::GlutinFacade as Display;
+use glium::backend::glutin::Display;
 use mvp;
 use pixset::PixLike;
 use shaders;
 use units;
 use utils;
+use std::borrow::Borrow;
 
 fn get_screen_size(display: &Display) -> units::Size2D {
-    let factor = display.get_window().unwrap().hidpi_factor();
+    let factor = display.gl_window().borrow().hidpi_factor();
     let (width, height) = display.get_framebuffer_dimensions();
     units::Size2D::new(
         (width as f32 / factor) as i32,
@@ -28,22 +29,23 @@ pub struct Renderer<'a> {
 
 impl<'a> Renderer<'a> {
     pub fn new<P: PixLike>(display: &'a Display, tileset: &[u8], empty: P) -> Self {
-        let screen_size = get_screen_size(display);
-        let (width, height) = empty.tile_size();
+        let (tile_width, tile_height) = empty.tile_size();
+
+        let screen_size = get_screen_size(&display);
         let size = units::Size2D::new(
-            (screen_size.width / width as i32),
-            (screen_size.height / height as i32),
+            (screen_size.width / tile_width as i32),
+            (screen_size.height / tile_height as i32),
         );
 
-        let program = program(display, empty.tile_size());
-        let indices = indices(display, size);
-        let texture = texture(display, tileset);
+        let program = program(&display, empty.tile_size());
+        let indices = indices(&display, size);
+        let texture = texture(&display, tileset);
         let vertex_buffer = console::VertexBuffer::new(size, empty);
 
         Renderer {
             size: size,
             screen_size: screen_size,
-            display: display,
+            display: &display,
             program: program,
             indices: indices,
             texture: texture,
@@ -149,6 +151,6 @@ fn texture(display: &Display, tileset: &[u8]) -> glium::texture::Texture2d {
 
     let image = utils::read_png_to_image(tileset);
     let image_dimensions = image.dimensions();
-    let texture = texture::RawImage2d::from_raw_rgba_reversed(image.into_raw(), image_dimensions);
+    let texture = texture::RawImage2d::from_raw_rgba_reversed(&image.into_raw(), image_dimensions);
     texture::Texture2d::new(display as &backend::Facade, texture).unwrap()
 }

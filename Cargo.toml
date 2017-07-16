@@ -11,9 +11,9 @@ OpenGL-based tile rendering engine
 """
 
 [dependencies]
-glium = "0.16.0"
-image = "0.12.3"
-lazy_static = "0.2.2"
+glium = "0.17.0"
+image = "0.14.0"
+lazy_static = "0.2.8"
 palette = "0.2.1"
 pixset = "0.0.2"
 
