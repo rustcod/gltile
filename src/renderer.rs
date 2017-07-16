@@ -6,6 +6,7 @@ use pixset::PixLike;
 use shaders;
 use units;
 use utils;
+use vertex;
 use std::borrow::Borrow;
 
 fn get_screen_size(display: &Display) -> units::Size2D {
@@ -24,7 +25,7 @@ pub struct Renderer<'a> {
     pub program: glium::Program,
     pub indices: glium::IndexBuffer<u16>,
     pub texture: glium::texture::Texture2d,
-    pub vertex_buffer: console::VertexBuffer,
+    pub vertex_data: vertex::VertexData,
 }
 
 // allow sampling of an empty texture
@@ -41,23 +42,23 @@ impl<'a> Renderer<'a> {
         let program = program(&display, empty.tile_size());
         let indices = indices(&display, size);
         let texture = texture(&display, tileset);
-        let vertex_buffer = console::VertexBuffer::new(size, empty);
+        let vertex_data = vertex::VertexData::new(size, empty);
 
         Renderer {
-            size: size,
-            screen_size: screen_size,
             display: &display,
-            program: program,
-            indices: indices,
-            texture: texture,
-            vertex_buffer: vertex_buffer,
+            size,
+            screen_size,
+            program,
+            indices,
+            texture,
+            vertex_data,
         }
     }
 
     pub fn render(&self) {
         use glium::Surface;
 
-        let vb = glium::VertexBuffer::new(self.display, &self.vertex_buffer.data()).unwrap();
+        let vb = glium::VertexBuffer::new(self.display, &self.vertex_data.data()).unwrap();
 
         let cam_uniforms = {
             let mat4_id = utils::mat4_id();
@@ -103,7 +104,7 @@ impl<'a> Renderer<'a> {
         tile: console::Tile<P>,
     ) {
         let coords = tile.pix.get();
-        self.vertex_buffer.set(screen_loc.into(), tile, coords);
+        self.vertex_data.set(screen_loc.into(), tile, coords);
     }
 
     pub fn blit_console<P: PixLike>(
@@ -117,7 +118,7 @@ impl<'a> Renderer<'a> {
                 let loc = screen_loc + units::ScreenTile2D::new(x as i32, y as i32);
                 let tile = console.get_tile(x, y);
                 let coords = tile.pix.get();
-                self.vertex_buffer.set(loc, tile, coords)
+                self.vertex_data.set(loc, tile, coords)
             }
         }
     }

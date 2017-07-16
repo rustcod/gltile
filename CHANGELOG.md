@@ -7,6 +7,7 @@ and this project (tries to!) adhere to [Semantic Versioning](http://semver.org/s
 ## [Unreleased]
 
 ### Changed
+- removed `VertexBuffer` as it was not doing anything
 - removed `MagnifySamplerFilter` on the tileset uniform; fixes single pixel lines on tiles
 
 ### Changed
