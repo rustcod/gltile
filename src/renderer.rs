@@ -27,6 +27,7 @@ pub struct Renderer<'a> {
     pub vertex_buffer: console::VertexBuffer,
 }
 
+// allow sampling of an empty texture
 impl<'a> Renderer<'a> {
     pub fn new<P: PixLike>(display: &'a Display, tileset: &[u8], empty: P) -> Self {
         let (tile_width, tile_height) = empty.tile_size();
@@ -74,9 +75,7 @@ impl<'a> Renderer<'a> {
                 [0.0, 0.0, 0.0, 1.0],
             ]; // X, Y
 
-            let tileset = self.texture
-                .sampled()
-                .magnify_filter(glium::uniforms::MagnifySamplerFilter::Nearest);
+            let tileset = self.texture.sampled();
 
             uniform! {
                 mvp: mvp::model_view_projection(mat4_id, cam, ortho_projection),
