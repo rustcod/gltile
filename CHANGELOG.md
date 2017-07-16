@@ -6,6 +6,8 @@ and this project (tries to!) adhere to [Semantic Versioning](http://semver.org/s
 
 ## [Unreleased]
 
+## [0.0.3] - 2017-07-15
+
 ### Changed
 - bumped `glium`, `image`, and `lazy_static`
 - updated examples for `glium` `0.17.0`
