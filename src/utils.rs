@@ -34,27 +34,6 @@ pub fn ortho_projection(screen_size: units::Size2D) -> mvp::Matrix4 {
     ]
 }
 
-pub fn read_file(path: &str) -> std::io::Result<(String)> {
-    use std::io::Read;
-    use std::fs::File;
-
-    let mut file = try!(File::open(path));
-    let mut string = String::new();
-    try!(file.read_to_string(&mut string));
-    Ok(string)
-}
-
-pub fn read_bytes(path: &str) -> std::io::Result<Vec<u8>> {
-    use std::io::Read;
-    use std::fs::File;
-
-    let mut file = try!(File::open(path));
-    let mut bytes = Vec::new();
-    try!(file.read_to_end(&mut bytes));
-    Ok(bytes)
-}
-
-
 pub fn read_png_to_image(bytes: &[u8]) -> image::ImageBuffer<image::Rgba<u8>, Vec<u8>> {
     image::load(std::io::Cursor::new(bytes), image::PNG)
         .unwrap()

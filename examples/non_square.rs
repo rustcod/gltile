@@ -7,12 +7,12 @@ extern crate glium;
 extern crate gltile;
 extern crate looper;
 
-use pixset::PixLike;
+use pixset::{PixLike, TilesetLike};
 
 pix! {
     tileset => "assets/16x24.png";
-    width => "16";
-    height => "24";
+    width => 16;
+    height => 24;
     total => "4";
     One,
     Two,
@@ -35,7 +35,7 @@ fn main() {
     let window = glium::glutin::WindowBuilder::new().with_dimensions(512, 768);
     let context = glium::glutin::ContextBuilder::new();
     let display = glium::Display::new(window, context, &events_loop).unwrap();
-    let mut renderer = gltile::Renderer::new(&display, TILESET, Pix::Empty);
+    let mut renderer = gltile::Renderer::new(&display, &TILESET);
 
     render_tile(&mut renderer, (5, 5), Pix::One);
     render_tile(&mut renderer, (6, 6), Pix::Two);

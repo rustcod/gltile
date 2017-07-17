@@ -4,7 +4,7 @@ extern crate looper;
 extern crate pixset;
 extern crate rand;
 
-use pixset::PixLike;
+use pixset::{PixLike, TilesetLike};
 use rand::Rng;
 use rand::distributions::{IndependentSample, Range};
 use std::ops::Deref;
@@ -36,11 +36,11 @@ fn main() {
     let window = glium::glutin::WindowBuilder::new().with_dimensions(dim as u32, dim as u32);
     let context = glium::glutin::ContextBuilder::new();
     let display = glium::Display::new(window, context, &events_loop).unwrap();
-    let mut renderer = gltile::Renderer::new(&display, pixset::TILESET, pixset::Pix::Empty);
+    let mut renderer = gltile::Renderer::new(&display, &pixset::TILESET);
 
 
     let mut rng = rand::thread_rng();
-    let (width, height) = pixset::Pix::Empty.tile_size();
+    let (width, height) = (&pixset::TILESET).get_tile_size();
     let x = Range::new(0, dim / width as i32);
     let y = Range::new(0, dim / height as i32);
 

@@ -7,9 +7,9 @@ and this project (tries to!) adhere to [Semantic Versioning](http://semver.org/s
 ## [Unreleased]
 
 ### Changed
+- `Renderer` takes a `Tileset` that `impl TilesetLike` (needed for custom tilesets), provided by `pix!` macro
+- removed `VertexBuffer` as it was not doing anything
 - removed `MagnifySamplerFilter` on the tileset uniform; fixes single pixel lines on tiles
-
-### Changed
 - bumped `glium`, `image`, and `lazy_static`
 - updated examples for `glium` `0.17.0`
 - cargo fmt

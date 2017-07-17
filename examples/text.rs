@@ -8,7 +8,7 @@ fn main() {
     let window = glium::glutin::WindowBuilder::new().with_dimensions(512, 512);
     let context = glium::glutin::ContextBuilder::new();
     let display = glium::Display::new(window, context, &events_loop).unwrap();
-    let mut renderer = gltile::Renderer::new(&display, pixset::TILESET, pixset::Pix::Empty);
+    let mut renderer = gltile::Renderer::new(&display, &pixset::TILESET);
 
     for (pix, offset) in pixset::PixStr::from("Yo, Dawg;").iter() {
         let tile = gltile::Tile::make(*gltile::colors::YELLOW, *gltile::colors::BLACK, pix);

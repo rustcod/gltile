@@ -1,7 +1,8 @@
 use console;
-use pixset::PixLike;
 use units;
 use vertex;
+
+use pixset::PixLike;
 
 pub struct VertexData {
     data: Vec<vertex::Vertex>,
@@ -10,9 +11,9 @@ pub struct VertexData {
 
 // TODO remove Size
 impl VertexData {
-    pub fn new<P: PixLike>(size: units::Size2D, empty: P) -> Self {
+    pub fn new(size: units::Size2D) -> Self {
         let length = (size.width * size.height) as usize;
-        let (top, right, bottom, left) = empty.get();
+        let (top, right, bottom, left) = (0.0, 0.0, 0.0, 0.0);
         let mut data: Vec<vertex::Vertex> = Vec::with_capacity(length * 4);
 
         for i in 0..length {

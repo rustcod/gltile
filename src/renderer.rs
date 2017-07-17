@@ -2,11 +2,14 @@ use console;
 use glium;
 use glium::backend::glutin::Display;
 use mvp;
-use pixset::PixLike;
 use shaders;
 use units;
 use utils;
+use vertex;
 use std::borrow::Borrow;
+
+use pixset::PixLike;
+use pixset::TilesetLike;
 
 fn get_screen_size(display: &Display) -> units::Size2D {
     let factor = display.gl_window().borrow().hidpi_factor();
@@ -24,13 +27,12 @@ pub struct Renderer<'a> {
     pub program: glium::Program,
     pub indices: glium::IndexBuffer<u16>,
     pub texture: glium::texture::Texture2d,
-    pub vertex_buffer: console::VertexBuffer,
+    pub vertex_data: vertex::VertexData,
 }
 
-// allow sampling of an empty texture
 impl<'a> Renderer<'a> {
-    pub fn new<P: PixLike>(display: &'a Display, tileset: &[u8], empty: P) -> Self {
-        let (tile_width, tile_height) = empty.tile_size();
+    pub fn new<T: TilesetLike>(display: &'a Display, tileset: T) -> Self {
+        let (tile_width, tile_height) = tileset.get_tile_size();
 
         let screen_size = get_screen_size(&display);
         let size = units::Size2D::new(
@@ -38,26 +40,26 @@ impl<'a> Renderer<'a> {
             (screen_size.height / tile_height as i32),
         );
 
-        let program = program(&display, empty.tile_size());
+        let program = program(&display, tileset.get_tile_size());
         let indices = indices(&display, size);
-        let texture = texture(&display, tileset);
-        let vertex_buffer = console::VertexBuffer::new(size, empty);
+        let texture = texture(&display, tileset.get_tileset());
+        let vertex_data = vertex::VertexData::new(size);
 
         Renderer {
-            size: size,
-            screen_size: screen_size,
             display: &display,
-            program: program,
-            indices: indices,
-            texture: texture,
-            vertex_buffer: vertex_buffer,
+            size,
+            screen_size,
+            program,
+            indices,
+            texture,
+            vertex_data,
         }
     }
 
     pub fn render(&self) {
         use glium::Surface;
 
-        let vb = glium::VertexBuffer::new(self.display, &self.vertex_buffer.data()).unwrap();
+        let vb = glium::VertexBuffer::new(self.display, &self.vertex_data.data()).unwrap();
 
         let cam_uniforms = {
             let mat4_id = utils::mat4_id();
@@ -103,7 +105,7 @@ impl<'a> Renderer<'a> {
         tile: console::Tile<P>,
     ) {
         let coords = tile.pix.get();
-        self.vertex_buffer.set(screen_loc.into(), tile, coords);
+        self.vertex_data.set(screen_loc.into(), tile, coords);
     }
 
     pub fn blit_console<P: PixLike>(
@@ -117,7 +119,7 @@ impl<'a> Renderer<'a> {
                 let loc = screen_loc + units::ScreenTile2D::new(x as i32, y as i32);
                 let tile = console.get_tile(x, y);
                 let coords = tile.pix.get();
-                self.vertex_buffer.set(loc, tile, coords)
+                self.vertex_data.set(loc, tile, coords)
             }
         }
     }
