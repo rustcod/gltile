@@ -15,9 +15,9 @@ glium = "0.17.0"
 image = "0.14.0"
 lazy_static = "0.2.8"
 palette = "0.2.1"
-pixset = "0.0.3"
+pixset = "0.0.4"
 
 [dev-dependencies]
-pixset_derive = "0.0.3"
+pixset_derive = "0.0.4"
 looper = "0.0.2"
 rand = "0.3.15"
