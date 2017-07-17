@@ -2,12 +2,15 @@ use console;
 use glium;
 use glium::backend::glutin::Display;
 use mvp;
-use pixset::PixLike;
 use shaders;
 use units;
 use utils;
 use vertex;
+use pixset;
 use std::borrow::Borrow;
+
+use pixset::PixLike;
+use pixset::TilesetLike;
 
 fn get_screen_size(display: &Display) -> units::Size2D {
     let factor = display.gl_window().borrow().hidpi_factor();
@@ -28,10 +31,9 @@ pub struct Renderer<'a> {
     pub vertex_data: vertex::VertexData,
 }
 
-// allow sampling of an empty texture
 impl<'a> Renderer<'a> {
-    pub fn new<P: PixLike>(display: &'a Display, tileset: &[u8], empty: P) -> Self {
-        let (tile_width, tile_height) = empty.tile_size();
+    pub fn new<T: TilesetLike>(display: &'a Display, tileset: T) -> Self {
+        let (tile_width, tile_height) = tileset.get_tile_size();
 
         let screen_size = get_screen_size(&display);
         let size = units::Size2D::new(
@@ -39,10 +41,10 @@ impl<'a> Renderer<'a> {
             (screen_size.height / tile_height as i32),
         );
 
-        let program = program(&display, empty.tile_size());
+        let program = program(&display, tileset.get_tile_size());
         let indices = indices(&display, size);
-        let texture = texture(&display, tileset);
-        let vertex_data = vertex::VertexData::new(size, empty);
+        let texture = texture(&display, tileset.get_tileset());
+        let vertex_data = vertex::VertexData::new(size);
 
         Renderer {
             display: &display,
