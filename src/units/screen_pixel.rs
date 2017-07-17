@@ -11,10 +11,6 @@ impl ScreenPixel2D {
     pub fn new(x: i32, y: i32) -> Self {
         ScreenPixel2D { x, y }
     }
-
-    pub fn zero() -> Self {
-        ScreenPixel2D::new(0, 0)
-    }
 }
 
 impl ::std::ops::Add for ScreenPixel2D {

@@ -6,7 +6,6 @@ use shaders;
 use units;
 use utils;
 use vertex;
-use pixset;
 use std::borrow::Borrow;
 
 use pixset::PixLike;
